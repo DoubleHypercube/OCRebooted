@@ -29,7 +29,7 @@ public final class CallbackAnalyzer {
 
     public Map<String, Callback> fromClass(Class<?> environment) {
         Map<String, Callback> callbacks = new LinkedHashMap<>();
-        staticAnalyze(environment, name -> true, callbacks);
+        staticAnalyze(environment, name -> !callbacks.containsKey(name), callbacks);
         return callbacks;
     }
 
@@ -67,22 +67,39 @@ public final class CallbackAnalyzer {
 
     private void staticAnalyze(Class<?> seed, Predicate<String> shouldAdd, Map<String, Callback> callbacks) {
         for (Class<?> type = seed; type != null && type != Object.class; type = type.getSuperclass()) {
-            for (Method method : type.getDeclaredMethods()) {
-                if (!method.isAnnotationPresent(li.cil.oc.api.machine.Callback.class)) continue;
-                String target = method.getDeclaringClass().getName() + "." + method.getName();
-                Class<?>[] parameters = method.getParameterTypes();
-                if (parameters.length != 2 || parameters[0] != Context.class || parameters[1] != Arguments.class) {
-                    log.error("Invalid use of Callback annotation on {}: invalid argument types or count.", target);
-                } else if (method.getReturnType() != Object[].class) {
-                    log.error("Invalid use of Callback annotation on {}: invalid return type.", target);
-                } else if (!Modifier.isPublic(method.getModifiers())) {
-                    log.error("Invalid use of Callback annotation on {}: method must be public.", target);
-                } else {
-                    li.cil.oc.api.machine.Callback annotation = method.getAnnotation(li.cil.oc.api.machine.Callback.class);
-                    String name = annotation.value() != null && !annotation.value().trim().isEmpty()
-                        ? annotation.value() : method.getName();
-                    if (shouldAdd.test(name)) callbacks.put(name, new ComponentCallback(method, annotation));
-                }
+            scanMethods(type, shouldAdd, callbacks);
+        }
+        Set<Class<?>> visited = new HashSet<>();
+        for (Class<?> type = seed; type != null && type != Object.class; type = type.getSuperclass()) {
+            for (Class<?> implemented : type.getInterfaces()) {
+                scanInterface(implemented, shouldAdd, callbacks, visited);
+            }
+        }
+    }
+
+    private void scanInterface(Class<?> type, Predicate<String> shouldAdd, Map<String, Callback> callbacks,
+                               Set<Class<?>> visited) {
+        if (!visited.add(type)) return;
+        scanMethods(type, shouldAdd, callbacks);
+        for (Class<?> parent : type.getInterfaces()) scanInterface(parent, shouldAdd, callbacks, visited);
+    }
+
+    private void scanMethods(Class<?> type, Predicate<String> shouldAdd, Map<String, Callback> callbacks) {
+        for (Method method : type.getDeclaredMethods()) {
+            if (!method.isAnnotationPresent(li.cil.oc.api.machine.Callback.class)) continue;
+            String target = method.getDeclaringClass().getName() + "." + method.getName();
+            Class<?>[] parameters = method.getParameterTypes();
+            if (parameters.length != 2 || parameters[0] != Context.class || parameters[1] != Arguments.class) {
+                log.error("Invalid use of Callback annotation on {}: invalid argument types or count.", target);
+            } else if (method.getReturnType() != Object[].class) {
+                log.error("Invalid use of Callback annotation on {}: invalid return type.", target);
+            } else if (!Modifier.isPublic(method.getModifiers())) {
+                log.error("Invalid use of Callback annotation on {}: method must be public.", target);
+            } else {
+                li.cil.oc.api.machine.Callback annotation = method.getAnnotation(li.cil.oc.api.machine.Callback.class);
+                String name = annotation.value() != null && !annotation.value().trim().isEmpty()
+                    ? annotation.value() : method.getName();
+                if (shouldAdd.test(name)) callbacks.put(name, new ComponentCallback(method, annotation));
             }
         }
     }

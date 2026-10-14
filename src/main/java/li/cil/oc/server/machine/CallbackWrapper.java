@@ -71,8 +71,9 @@ public final class CallbackWrapper {
         visitor.visitTypeInsn(Opcodes.CHECKCAST, className);
         visitor.visitVarInsn(Opcodes.ALOAD, 2);
         visitor.visitVarInsn(Opcodes.ALOAD, 3);
-        visitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, className, method.getName(),
-            Type.getMethodDescriptor(method), false);
+        boolean isInterface = method.getDeclaringClass().isInterface();
+        visitor.visitMethodInsn(isInterface ? Opcodes.INVOKEINTERFACE : Opcodes.INVOKEVIRTUAL,
+            className, method.getName(), Type.getMethodDescriptor(method), isInterface);
         visitor.visitInsn(Opcodes.ARETURN);
         visitor.visitMaxs(3, 3);
         visitor.visitEnd();
