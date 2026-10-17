@@ -31,7 +31,7 @@ final class ModEMI extends EmiPlugin {
       val stack = item.getDefaultInstance
       if (!stack.isEmpty && !ContentVisibility.isHidden(stack)) {
         ManualUsageHandler.recipeFor(stack).foreach(recipe => registry.addRecipe(new ManualEmiRecipe(recipe)))
-        CallbackDocHandler.recipesFor(stack).foreach(recipe => registry.addRecipe(new CallbackDocEmiRecipe(recipe)))
+        CallbackDocHandler.recipesFor(stack).asScala.foreach(recipe => registry.addRecipe(new CallbackDocEmiRecipe(recipe)))
       }
     }
   }

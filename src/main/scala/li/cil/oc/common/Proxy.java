@@ -8,7 +8,7 @@ import li.cil.oc.integration.Mods;
 import li.cil.oc.server.PacketHandler$;
 import li.cil.oc.server.driver.Registry;
 import li.cil.oc.server.fs.FileSystem$;
-import li.cil.oc.server.machine.Machine$;
+import li.cil.oc.server.machine.Machine;
 import li.cil.oc.server.machine.luac.LuaStateFactory$;
 import li.cil.oc.server.machine.luac.NativeLua52Architecture;
 import li.cil.oc.server.machine.luac.NativeLua53Architecture;
@@ -49,7 +49,7 @@ public class Proxy {
         API.driver = Registry.INSTANCE;
         API.fileSystem = FileSystem$.MODULE$;
         API.items = OCItems$.MODULE$;
-        API.machine = Machine$.MODULE$;
+        API.machine = Machine.FACTORY;
         API.nanomachines = Nanomachines$.MODULE$;
         API.network = Network$.MODULE$;
         API.config = Settings.get().config();

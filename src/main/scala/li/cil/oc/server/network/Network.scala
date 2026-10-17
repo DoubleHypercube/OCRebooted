@@ -18,6 +18,8 @@ import net.minecraft.world.item.DyeColor
 import net.minecraft.nbt._
 import net.minecraft.core.Direction
 import net.minecraft.core.BlockPos
+import net.minecraft.core.component.DataComponentHolder
+import net.neoforged.neoforge.common.MutableDataComponentHolder
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -626,6 +628,7 @@ object Network extends api.detail.NetworkAPI {
       val reachability = _reachability
       val name = _name
       setVisibility(_visibility)
+      override def toString = s"Node($address, $host)@$name"
     }
     else null
   }
@@ -644,12 +647,15 @@ object Network extends api.detail.NetworkAPI {
   }
 
   class ComponentConnectorBuilder(val _host: Environment, val _reachability: Visibility, val _name: String, val _visibility: Visibility, val _bufferSize: Double) extends api.detail.Builder.ComponentConnectorBuilder {
-    def create() = if (isServer()) new ComponentConnector with NodeVarargPart {
+    def create() = if (isServer()) new ComponentConnector with Component with NodeVarargPart {
       val host = _host
       val reachability = _reachability
       val name = _name
       localBufferSize = _bufferSize
       setVisibility(_visibility)
+      override def toString = s"Node($address, $host)@$name"
+      override def loadData(holder: DataComponentHolder): Unit = super[ComponentConnector].loadData(holder)
+      override def saveData(holder: MutableDataComponentHolder): Unit = super[ComponentConnector].saveData(holder)
     }
     else null
   }
