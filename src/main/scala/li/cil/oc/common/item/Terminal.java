@@ -47,7 +47,7 @@ public class Terminal extends Item implements SimpleItem {
     @Override
     public boolean doesSneakBypassUse(ItemStack stack, LevelReader level, BlockPos pos, Player player) {
         if (level.getBlockEntity(pos) instanceof li.cil.oc.common.blockentity.Rack) return true;
-        return SimpleItem.super.doesSneakBypassUse(stack, level, pos, player);
+        return super.doesSneakBypassUse(stack, level, pos, player);
     }
 
     @Override
