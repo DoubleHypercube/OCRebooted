@@ -21,6 +21,24 @@ public final class Slot {
         Card, ComponentBus, Container, CPU, EEPROM, Floppy, HDD, Memory, RackMountable, Tablet, Tool, Upgrade
     };
 
+    // Keep the Scala object's Java-callable accessors for addon compatibility.
+    public static String None() { return None; }
+    public static String Any() { return Any; }
+    public static String Filtered() { return Filtered; }
+    public static String Card() { return Card; }
+    public static String ComponentBus() { return ComponentBus; }
+    public static String Container() { return Container; }
+    public static String CPU() { return CPU; }
+    public static String EEPROM() { return EEPROM; }
+    public static String Floppy() { return Floppy; }
+    public static String HDD() { return HDD; }
+    public static String Memory() { return Memory; }
+    public static String RackMountable() { return RackMountable; }
+    public static String Tablet() { return Tablet; }
+    public static String Tool() { return Tool; }
+    public static String Upgrade() { return Upgrade; }
+    public static String[] All() { return All; }
+
     private Slot() {
     }
 }
