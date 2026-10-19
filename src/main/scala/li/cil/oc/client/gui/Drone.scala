@@ -32,7 +32,7 @@ class Drone(state: menu.Drone, playerInventory: Inventory, name: Component)
 
     override def data = buffer
 
-    override def viewport: (Int, Int) = buffer.size
+    override def viewport: (Int, Int) = (buffer.width, buffer.height)
   }
 
   override protected val bufferX = 9

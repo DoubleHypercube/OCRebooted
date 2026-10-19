@@ -51,7 +51,7 @@ class Projector(pos: BlockPos, state: BlockState)
   screenBuffer.setMaximumColorDepth(ScreenDepth)
   // The component has no network address during construction, so initialize
   // its backing buffer directly instead of sending change packets here.
-  screenBuffer.data.size = (ScreenWidth, ScreenHeight)
+  screenBuffer.data.size_$eq(new scala.Tuple2(ScreenWidth, ScreenHeight))
   screenBuffer.data.format = PackedColor.Depth.format(ScreenDepth)
   screenBuffer.viewport = (ScreenWidth, ScreenHeight)
   if (isServer) setModeComponentVisibility()

@@ -96,9 +96,9 @@ class TextBuffer(val host: EnvironmentHost) extends AbstractManagedEnvironment w
     if (SideTracker.isClient) new TextBuffer.ClientProxy(this)
     else new TextBuffer.ServerProxy(this)
 
-  val data = new util.TextBuffer(maxResolution, PackedColor.Depth.format(maxDepth))
+  val data = new util.TextBuffer(maxResolution._1, maxResolution._2, PackedColor.Depth.format(maxDepth))
 
-  var viewport: (Int, Int) = data.size
+  var viewport: (Int, Int) = (data.width, data.height)
 
   def markInitialized(): Unit = {
     syncCooldown = -1 // Stop polling for init state.
@@ -299,7 +299,7 @@ class TextBuffer(val host: EnvironmentHost) extends AbstractManagedEnvironment w
     proxy.onBufferResolutionChange(w, h)
     // Force set viewport to new resolution. This is partially for
     // backwards compatibility, and partially to enforce a valid one.
-    val sizeChanged = data.size = (w, h)
+    val sizeChanged = data.size_$eq(new scala.Tuple2(w, h))
     val viewportChanged = setViewport(w, h)
     if (sizeChanged || viewportChanged) {
       if (!viewportChanged && node != null) {
@@ -311,7 +311,8 @@ class TextBuffer(val host: EnvironmentHost) extends AbstractManagedEnvironment w
   }
 
   override def setViewport(w: Int, h: Int): Boolean = {
-    val (mw, mh) = data.size
+    val mw = data.width
+    val mh = data.height
     if (w < 1 || h < 1 || w > mw || h > mh)
       throw new IllegalArgumentException("unsupported viewport resolution")
     // Always send to clients, their state might be dirty.
@@ -517,7 +518,7 @@ class TextBuffer(val host: EnvironmentHost) extends AbstractManagedEnvironment w
 
     viewport = holder.getComponent(OCComponents.VIDEO_MODE) match {
       case Some(mode) => (mode.width() min data.width max 1, mode.height() min data.height max 1)
-      case None => data.size
+      case None => (data.width, data.height)
     }
   }
 

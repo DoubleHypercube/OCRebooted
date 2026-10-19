@@ -12,6 +12,9 @@ import net.neoforged.neoforge.common.MutableDataComponentHolder
 
 object PackedColor {
 
+  // Java-facing bridge for nested Scala companion objects.
+  def formatForDepth(depth: api.internal.TextBuffer.ColorDepth): ColorFormat = Depth.format(depth)
+
   object Depth {
     def bits(depth: api.internal.TextBuffer.ColorDepth) = depth match {
       case api.internal.TextBuffer.ColorDepth.OneBit => 1

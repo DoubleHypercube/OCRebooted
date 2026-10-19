@@ -17,6 +17,8 @@ case class TextBufferContents(width: Int,
                               colors: IntArray)
 
 object TextBufferContents {
+  def intArray(values: Array[Array[Int]]): IntArray = new IntArray(values)
+
   final class IntArray(values: Array[Int]) {
     private val array = values.clone()
 
