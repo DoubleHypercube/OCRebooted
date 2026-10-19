@@ -19,7 +19,7 @@ class UnicodeWidthTest extends AnyFunSpec with Matchers {
     it("does not allocate a text-buffer cell to zero-width space") {
       val buffer = new TextBuffer(10, 1, new PackedColor.SingleBitFormat(0xFFFFFF))
 
-      buffer.set(0, 0, "Mic\u200Bhiyo", vertical = false) should be(true)
+      buffer.set(0, 0, "Mic\u200Bhiyo", false) should be(true)
 
       buffer.lineToString(0).take(7) should be("Michiyo")
       buffer.get(7, 0) should be(' ')

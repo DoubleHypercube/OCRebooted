@@ -19,7 +19,7 @@ object DriverNavigationCard extends Item with HostAware {
   override def createEnvironment(stack: ItemStack, host: EnvironmentHost) =
     if (host.getEnvironmentLevel != null && host.getEnvironmentLevel.isClientSide) null
     else host match {
-      case rotatable: EnvironmentHost with Rotatable => new component.UpgradeNavigation(rotatable, absolutePosition = true)
+      case rotatable: EnvironmentHost with Rotatable => new component.UpgradeNavigation(rotatable, true)
       case _ => null
     }
 
