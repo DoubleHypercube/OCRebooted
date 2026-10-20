@@ -24,11 +24,14 @@ class DebugCard(props: Properties) extends Item(props) with traits.ComponentItem
 
   override def use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder[ItemStack] = {
     val stack = player.getItemInHand(hand)
-    if (!level.isClientSide && player.isCrouching) {
+    if (!level.isClientSide && player.isShiftKeyDown) {
       val data = new DebugCardData(stack)
       val name = player.getName
 
-      if (data.access.exists(_.player == name.getString)) data.access = None
+      if (data.access.exists(_.player == name.getString)) {
+        data.access = None
+        player.displayClientMessage(Component.literal("Debug card unbound"), true)
+      }
       else data.access =
         Some(CDebugCard.AccessContext(name.getString, Settings.get.debugCardAccess match {
           case wl: DebugCardAccess.Whitelist => wl.nonce(name.getString) match {
@@ -42,6 +45,7 @@ class DebugCard(props: Properties) extends Item(props) with traits.ComponentItem
         }))
 
       data.saveData(stack)
+      if (data.access.nonEmpty) player.displayClientMessage(Component.literal(s"Debug card bound to ${name.getString}"), true)
     }
 
     InteractionResultHolder.sidedSuccess(stack, level.isClientSide)

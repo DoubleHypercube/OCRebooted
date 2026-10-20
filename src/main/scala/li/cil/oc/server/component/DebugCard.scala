@@ -35,8 +35,6 @@ import li.cil.oc.util.ExtendedDataComponentHolder._
 import li.cil.oc.util.InventoryUtils
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.LiquidBlock
-import net.minecraft.commands.CommandSource
-import net.minecraft.commands.CommandSourceStack
 import net.minecraft.core.component.{DataComponentHolder, DataComponents}
 import net.minecraft.world.entity.vehicle.AbstractMinecart
 import net.minecraft.world.entity.{Entity, LivingEntity}
@@ -53,8 +51,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.phys.shapes.CollisionContext
-import net.minecraft.world.phys.Vec2
-import net.minecraft.world.phys.Vec3
 import net.minecraft.core.registries.{BuiltInRegistries, Registries}
 import net.minecraft.network.chat.{Component, Style}
 import net.minecraft.world.level.{GameType, Level, LevelSettings}
@@ -67,7 +63,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler
 import net.neoforged.fml.ModList
 import net.neoforged.neoforge.server.ServerLifecycleHooks
 
-import scala.collection.JavaConverters.{collectionAsScalaIterable, mapAsScalaMap}
+import scala.collection.JavaConverters.{collectionAsScalaIterable, mapAsScalaMap, seqAsJavaList}
 import scala.collection.convert.ImplicitConversionsToScala._
 import scala.collection.mutable
 import net.minecraft.nbt.CompoundTag
@@ -92,32 +88,6 @@ class DebugCard(host: EnvironmentHost) extends AbstractManagedEnvironment with D
   implicit var access: Option[AccessContext] = None
 
   def player: Option[String] = access.map(_.player)
-
-  private var CommandMessages: Option[String] = None
-
-  private def createCommandSourceStack(): CommandSourceStack = {
-    val sender = new CommandSource {
-      override def acceptsSuccess = true
-
-      override def acceptsFailure = true
-
-      override def shouldInformAdmins = true
-
-      override def sendSystemMessage(component: Component): Unit = {
-        CommandMessages = Option(CommandMessages.fold("")(_ + "\n") + component.getString)
-      }
-    }
-    val world = host.getEnvironmentLevel.asInstanceOf[ServerLevel]
-    val server = world.getServer
-    def defaultFakePlayer = FakePlayerFactory.get(world, Settings.get.fakePlayerProfile)
-    val sourcePlayer = player match {
-      case Some(name) => Option(server.getPlayerList.getPlayerByName(name)).getOrElse(defaultFakePlayer)
-      case _ => defaultFakePlayer
-    }
-    val permLevel = server.getProfilePermissions(sourcePlayer.getGameProfile)
-    new CommandSourceStack(sender, new Vec3(host.xPosition, host.yPosition, host.zPosition), Vec2.ZERO, world,
-      permLevel, sourcePlayer.getName.getString, sourcePlayer.getDisplayName, server, sourcePlayer)
-  }
 
   // ----------------------------------------------------------------------- //
 
@@ -245,22 +215,15 @@ class DebugCard(host: EnvironmentHost) extends AbstractManagedEnvironment with D
     result(ModList.get.isLoaded(name))
   }
 
-  @Callback(doc = """function(command:string):number -- Runs an arbitrary command using a fake player.""")
+  @Callback(doc = """function(command:string):number, string -- Runs a command as the bound player or configured fake player.""")
   def runCommand(context: Context, args: Arguments): Array[AnyRef] = {
     checkAccess()
     val commands =
       if (args.isTable(0)) collectionAsScalaIterable(args.checkTable(0).values())
       else Iterable(args.checkString(0))
 
-    val source = createCommandSourceStack()
-    CommandMessages.synchronized {
-      CommandMessages = None
-      var value = 0
-      for (command <- commands) {
-        value = ServerLifecycleHooks.getCurrentServer.getCommands.getDispatcher.execute(command.toString, source)
-      }
-      result(value, CommandMessages.orNull)
-    }
+    val execution = DebugCardCommands.run(host, player.orNull, seqAsJavaList(commands.toSeq))
+    result(execution.value, execution.messages)
   }
 
   @Callback(doc = """function(x:number, y:number, z:number):boolean -- Add a component block at the specified coordinates to the computer network.""")
