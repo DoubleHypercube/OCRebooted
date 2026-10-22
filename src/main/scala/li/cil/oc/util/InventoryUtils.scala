@@ -48,16 +48,16 @@ object InventoryUtils {
     case Some(world) if world.blockExists(position) =>
       val pos = position.toBlockPos
       Option(world.getCapability(Capabilities.ItemHandler.BLOCK, pos, side)) match {
-        case Some(handler) => Some(BlockInventorySource(position, side, handler))
+        case Some(handler) => Some(new BlockInventorySource(position, side, handler))
         case _ =>
           world.getBlockEntity(pos) match {
             // Some inventories do not expose NeoForge's item-handler capability.
             // Preserve vanilla Container support instead of silently skipping them.
-            case inventory: Container => Some(BlockInventorySource(position, side, asItemHandler(inventory, side)))
+            case inventory: Container => Some(new BlockInventorySource(position, side, asItemHandler(inventory, side)))
             case _ =>
               world.getEntitiesOfClass(classOf[Entity], position.bounds)
                 .filter(e => e.isAlive && e.getCapability(Capabilities.ItemHandler.ENTITY) != null)
-                .map(a => EntityInventorySource(a, side, a.getCapability(Capabilities.ItemHandler.ENTITY)))
+                .map(a => new EntityInventorySource(a, side, a.getCapability(Capabilities.ItemHandler.ENTITY)))
                 .find(a => a != null && a.inventory != null)
           }
       }
@@ -427,10 +427,3 @@ object InventoryUtils {
     case _ => null
   }
 }
-
-sealed trait InventorySource {
-  def side: Direction
-  def inventory: IItemHandler
-}
-final case class BlockInventorySource(position: BlockPosition, side: Direction, inventory: IItemHandler) extends InventorySource
-final case class EntityInventorySource(entity: Entity, side: Direction, inventory: IItemHandler) extends InventorySource
