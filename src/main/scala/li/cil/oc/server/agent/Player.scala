@@ -228,7 +228,7 @@ class Player(val agent: internal.Agent) extends FakePlayer(agent.getEnvironmentL
     })) InteractionResult.sidedSuccess(level.isClientSide) else InteractionResult.PASS
   }
 
-  def activateBlockOrUseItem(pos: BlockPos, side: Direction, hitX: Float, hitY: Float, hitZ: Float, duration: Double): ActivationType.Value = {
+  def activateBlockOrUseItem(pos: BlockPos, side: Direction, hitX: Float, hitY: Float, hitZ: Float, duration: Double): ActivationType = {
     callUsingItemInSlot(agent.equipmentInventory, 0, stack => {
       if (shouldCancel(() => fireRightClickBlock(pos, side))) {
         return ActivationType.None

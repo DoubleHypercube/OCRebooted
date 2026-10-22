@@ -6,7 +6,7 @@ import li.cil.oc.api.internal.MultiTank;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.server.agent.ActivationType$;
+import li.cil.oc.server.agent.ActivationType;
 import li.cil.oc.server.agent.Player$;
 import li.cil.oc.util.BlockPosition;
 import li.cil.oc.util.ExtendedArguments;
@@ -188,17 +188,17 @@ public interface Agent extends li.cil.oc.server.component.traits.LevelControl,
                 ClickParams click = clickParamsFromHit(blockHit);
                 var activation = player.activateBlockOrUseItem(click.position(), blockHit.getDirection(),
                         click.hitX(), click.hitY(), click.hitZ(), duration);
-                if (activation == ActivationType$.MODULE$.BlockActivated()) {
+                if (activation == ActivationType.BlockActivated) {
                     onWorldInteraction(context, Settings.get().useDelay());
                     success = true;
                     what = "block_activated";
                 }
-                else if (activation == ActivationType$.MODULE$.ItemPlaced()) {
+                else if (activation == ActivationType.ItemPlaced) {
                     onWorldInteraction(context, Settings.get().useDelay());
                     success = true;
                     what = "item_placed";
                 }
-                else if (activation == ActivationType$.MODULE$.ItemUsed()) {
+                else if (activation == ActivationType.ItemUsed) {
                     onWorldInteraction(context, Settings.get().useDelay());
                     success = true;
                     what = "item_used";
@@ -215,17 +215,17 @@ public interface Agent extends li.cil.oc.server.component.traits.LevelControl,
                     click = clickParamsForItemUse(facing, side);
                     var activation = player.activateBlockOrUseItem(click.position(), side.getOpposite(),
                             click.hitX(), click.hitY(), click.hitZ(), duration);
-                    if (activation == ActivationType$.MODULE$.BlockActivated()) {
+                    if (activation == ActivationType.BlockActivated) {
                         onWorldInteraction(context, Settings.get().useDelay());
                         success = true;
                         what = "block_activated";
                     }
-                    else if (activation == ActivationType$.MODULE$.ItemPlaced()) {
+                    else if (activation == ActivationType.ItemPlaced) {
                         onWorldInteraction(context, Settings.get().useDelay());
                         success = true;
                         what = "item_placed";
                     }
-                    else if (activation == ActivationType$.MODULE$.ItemUsed()) {
+                    else if (activation == ActivationType.ItemUsed) {
                         onWorldInteraction(context, Settings.get().useDelay());
                         success = true;
                         what = "item_used";
