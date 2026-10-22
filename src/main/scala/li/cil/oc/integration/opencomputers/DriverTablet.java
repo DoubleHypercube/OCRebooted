@@ -35,7 +35,7 @@ public final class DriverTablet implements DriverItem {
         int index = fileSystemIndex(data);
         if (index < 0) return null;
         ItemStack fileSystemStack = data.items[index];
-        ManagedEnvironment environment = DriverFileSystem$.MODULE$.createEnvironment(fileSystemStack, host);
+        ManagedEnvironment environment = DriverFileSystem.INSTANCE.createEnvironment(fileSystemStack, host);
         if (environment == null || !(environment.node() instanceof Component component)) return null;
         component.setVisibility(Visibility.Network);
         // Persist mutations to the nested drive without writing its environment to the tablet itself.
@@ -47,7 +47,7 @@ public final class DriverTablet implements DriverItem {
     private static int fileSystemIndex(TabletData data) {
         for (int i = 0; i < data.items.length; i++) {
             ItemStack stack = data.items[i];
-            if (!stack.isEmpty() && DriverFileSystem$.MODULE$.worksWith(stack)) return i;
+            if (!stack.isEmpty() && DriverFileSystem.INSTANCE.worksWith(stack)) return i;
         }
         return -1;
     }
