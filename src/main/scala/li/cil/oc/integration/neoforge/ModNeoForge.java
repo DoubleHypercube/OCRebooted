@@ -19,6 +19,6 @@ public final class ModNeoForge implements ModProxy {
         IMC.registerItemCharge("MinecraftForge",
                 "li.cil.oc.integration.neoforge.EventHandlerNeoForge.canCharge",
                 "li.cil.oc.integration.neoforge.EventHandlerNeoForge.charge");
-        Driver.add(DriverEnergyStorage$.MODULE$);
+        Driver.add(DriverEnergyStorage.INSTANCE);
     }
 }
