@@ -47,7 +47,7 @@ public final class ModMinecraft implements ModProxy, BundledRedstone.RedstonePro
             Driver.add(new DriverFluidHandler());
             Driver.add(new DriverFluidTank());
         }
-        if (Settings.get().enableCommandBlockDriver()) Driver.add(DriverCommandBlock$.MODULE$);
+        if (Settings.get().enableCommandBlockDriver()) Driver.add(DriverCommandBlock.INSTANCE);
 
         Driver.add(ConverterFluidContainerItem.INSTANCE);
         Driver.add(ConverterFluidStack.INSTANCE);
