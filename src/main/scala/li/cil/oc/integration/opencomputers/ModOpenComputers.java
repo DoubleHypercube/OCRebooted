@@ -152,8 +152,8 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverMotionSensor.INSTANCE);
         Driver.add(DriverScreen.INSTANCE);
         Driver.add(DriverTransposer.INSTANCE);
-        Driver.add(DriverCapacitorMountable$.MODULE$);
-        Driver.add(DriverDiskDriveMountable$.MODULE$);
+        Driver.add(DriverCapacitorMountable.INSTANCE);
+        Driver.add(DriverDiskDriveMountable.INSTANCE);
         Driver.add(DriverServer.INSTANCE);
         Driver.add(DriverTerminalServer.INSTANCE);
         Driver.add(DriverUpgradeAngel.INSTANCE);
