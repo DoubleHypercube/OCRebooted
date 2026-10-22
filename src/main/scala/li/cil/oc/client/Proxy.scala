@@ -40,7 +40,7 @@ private[oc] class Proxy(modBus: IEventBus) extends CommonProxy(modBus) {
     NeoForge.EVENT_BUS.register(HighlightRenderer)
     NeoForge.EVENT_BUS.register(NanomachinesHandler.Client.INSTANCE)
     NeoForge.EVENT_BUS.register(PetRenderer)
-    NeoForge.EVENT_BUS.register(RackMountableRenderHandler)
+    NeoForge.EVENT_BUS.register(RackMountableRenderHandler.INSTANCE)
     NeoForge.EVENT_BUS.register(Sound)
     NeoForge.EVENT_BUS.register(TextBuffer)
     NeoForge.EVENT_BUS.register(MFUTargetRenderer)
