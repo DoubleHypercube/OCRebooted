@@ -169,10 +169,10 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeInventoryController$.MODULE$);
         Driver.add(DriverUpgradeLeash$.MODULE$);
         Driver.add(DriverUpgradeNavigation$.MODULE$);
-        Driver.add(DriverUpgradePiston$.MODULE$);
-        Driver.add(DriverUpgradeSign$.MODULE$);
+        Driver.add(DriverUpgradePiston.INSTANCE);
+        Driver.add(DriverUpgradeSign.INSTANCE);
         Driver.add(DriverUpgradeSolarGenerator$.MODULE$);
-        Driver.add(DriverUpgradeStickyPiston$.MODULE$);
+        Driver.add(DriverUpgradeStickyPiston.INSTANCE);
         Driver.add(DriverUpgradeTank$.MODULE$);
         Driver.add(DriverUpgradeTankController$.MODULE$);
         Driver.add(DriverUpgradeTractorBeam$.MODULE$);
@@ -203,9 +203,9 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeInventoryController.Provider$.MODULE$);
         Driver.add(DriverUpgradeLeash.Provider$.MODULE$);
         Driver.add(DriverUpgradeNavigation.Provider$.MODULE$);
-        Driver.add(DriverUpgradePiston.Provider$.MODULE$);
-        Driver.add(DriverUpgradeSign.Provider$.MODULE$);
-        Driver.add(DriverUpgradeStickyPiston.Provider$.MODULE$);
+        Driver.add(DriverUpgradePiston.PROVIDER);
+        Driver.add(DriverUpgradeSign.PROVIDER);
+        Driver.add(DriverUpgradeStickyPiston.PROVIDER);
         Driver.add(DriverUpgradeTankController.Provider$.MODULE$);
         Driver.add(DriverUpgradeTractorBeam.Provider$.MODULE$);
         Driver.add(DriverUpgradeMF.Provider$.MODULE$);
