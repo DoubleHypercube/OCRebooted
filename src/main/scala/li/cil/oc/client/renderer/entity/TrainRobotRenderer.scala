@@ -14,17 +14,16 @@ import java.lang.reflect.Method
 class TrainRobotRenderer(ctx: EntityRendererProvider.Context) extends EntityRenderer[TrainRobot](ctx) {
   shadowRadius = 0f
 
-  private val createHatRenderer: Option[(AnyRef, Method)] = try {
-    val companion = Class.forName("li.cil.oc.client.renderer.entity.CreateTrainRobotHatRenderer$")
-    val module = companion.getField("MODULE$").get(null).asInstanceOf[AnyRef]
-    val method = companion.getMethod(
+  private val createHatRenderer: Option[Method] = try {
+    val rendererClass = Class.forName("li.cil.oc.client.renderer.entity.CreateTrainRobotHatRenderer")
+    val method = rendererClass.getMethod(
       "render",
       classOf[TrainRobot],
       classOf[PoseStack],
       classOf[MultiBufferSource],
       java.lang.Integer.TYPE
     )
-    Some(module -> method)
+    Some(method)
   }
   catch {
     case _: Throwable => None
@@ -48,8 +47,8 @@ class TrainRobotRenderer(ctx: EntityRendererProvider.Context) extends EntityRend
       isRunningOverride = true,
       flag = entity.flag
     )
-    createHatRenderer.foreach { case (module, method) =>
-      try method.invoke(module, entity, pose, buffer, Int.box(light))
+    createHatRenderer.foreach { method =>
+      try method.invoke(null, entity, pose, buffer, Int.box(light))
       catch { case _: Throwable => () }
     }
     pose.popPose()
