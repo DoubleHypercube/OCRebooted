@@ -17,7 +17,7 @@ import li.cil.oc.api.network.Packet;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.AbstractManagedEnvironment;
 import li.cil.oc.common.RobotFlags;
-import li.cil.oc.common.ToolDurabilityProviders$;
+import li.cil.oc.common.ToolDurabilityProviders;
 import li.cil.oc.common.blockentity.RobotProxy;
 import li.cil.oc.common.datacomponents.OCComponents;
 import li.cil.oc.server.PacketSender$;
@@ -123,7 +123,7 @@ public class Robot extends AbstractManagedEnvironment implements Agent, DeviceIn
     public Object[] durability(Context context, Arguments args) {
         ItemStack item = agent.equipmentInventory().getItem(0);
         if (item.isEmpty()) return ResultWrapper.result(null, "no tool equipped");
-        scala.Option<Object> durability = ToolDurabilityProviders$.MODULE$.getDurability(item);
+        scala.Option<Object> durability = ToolDurabilityProviders.getDurability(item);
         return durability.isDefined()
                 ? ResultWrapper.result(durability.get())
                 : ResultWrapper.result(null, "tool cannot be damaged");
