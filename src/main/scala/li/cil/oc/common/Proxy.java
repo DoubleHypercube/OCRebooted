@@ -1,6 +1,6 @@
 package li.cil.oc.common;
 
-import li.cil.oc.CreativeTab$;
+import li.cil.oc.CreativeTab;
 import li.cil.oc.OpenComputers;
 import li.cil.oc.Settings;
 import li.cil.oc.api.API;
@@ -45,7 +45,7 @@ public class Proxy {
     public void preInit() {
         OpenComputers.log().info("Initializing OpenComputers API.");
 
-        li.cil.oc.api.CreativeTab.instance = CreativeTab$.MODULE$.MAIN().getKey();
+        li.cil.oc.api.CreativeTab.instance = CreativeTab.MAIN.getKey();
         API.driver = Registry.INSTANCE;
         API.fileSystem = FileSystem$.MODULE$;
         API.items = OCItems$.MODULE$;

@@ -79,7 +79,7 @@ class OpenComputers(modBus: IEventBus, modContainer: ModContainer) {
   modBus.addListener(EntityTypes.onAttributeCreation)
   MenuTypes.MENU.register(modBus)
   OpenPrinter.init(modBus, modContainer)
-  modBus.register(CreativeTab)
+  modBus.register(CreativeTab.INSTANCE)
   OpenComputers.instance = Some(this)
   modBus.register(OpenComputers.proxy)
   OpenComputers.proxy.preInit()
