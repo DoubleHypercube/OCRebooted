@@ -7,7 +7,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import scala.Function2;
 import scala.Option;
 import scala.collection.Iterable;
-import scala.collection.immutable.Set;
 import scala.collection.mutable.ArrayBuffer;
 import scala.util.matching.Regex;
 
@@ -15,15 +14,12 @@ public class TextSegment implements BasicTextSegment {
     private final Segment parent;
     private final String text;
     private Segment next;
-    private Set<Object> breaks;
-    private Set<String> lists;
     private boolean interactiveResolved;
     private Option<InteractiveSegment> interactive;
 
     public TextSegment(Segment parent, String text) {
         this.parent = parent;
         this.text = text;
-        BasicTextSegment.$init$(this);
     }
 
     @Override
@@ -44,26 +40,6 @@ public class TextSegment implements BasicTextSegment {
     @Override
     public void next_$eq(Segment next) {
         this.next = next;
-    }
-
-    @Override
-    public Set<Object> breaks() {
-        return breaks;
-    }
-
-    @Override
-    public Set<String> lists() {
-        return lists;
-    }
-
-    @Override
-    public void li$cil$oc$client$renderer$markdown$segment$BasicTextSegment$_setter_$breaks_$eq(Set<Object> value) {
-        breaks = value;
-    }
-
-    @Override
-    public void li$cil$oc$client$renderer$markdown$segment$BasicTextSegment$_setter_$lists_$eq(Set<String> value) {
-        lists = value;
     }
 
     @Override
