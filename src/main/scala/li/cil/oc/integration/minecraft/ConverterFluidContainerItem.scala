@@ -22,7 +22,7 @@ object ConverterFluidContainerItem extends api.driver.Converter {
                 tank += "capacity" -> Int.box(fc.getTankCapacity(i))
                 val fluid = fc.getFluidInTank(i)
                 if (fluid != null) {
-                  ConverterFluidStack.convert(fluid, tank)
+                  ConverterFluidStack.INSTANCE.convert(fluid, tank)
                 } else {
                   tank += "amount" -> Int.box(0)
                 }
