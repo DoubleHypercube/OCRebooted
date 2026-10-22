@@ -171,11 +171,11 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeNavigation$.MODULE$);
         Driver.add(DriverUpgradePiston.INSTANCE);
         Driver.add(DriverUpgradeSign.INSTANCE);
-        Driver.add(DriverUpgradeSolarGenerator$.MODULE$);
+        Driver.add(DriverUpgradeSolarGenerator.INSTANCE);
         Driver.add(DriverUpgradeStickyPiston.INSTANCE);
         Driver.add(DriverUpgradeTank.INSTANCE);
         Driver.add(DriverUpgradeTankController.INSTANCE);
-        Driver.add(DriverUpgradeTractorBeam$.MODULE$);
+        Driver.add(DriverUpgradeTractorBeam.INSTANCE);
         Driver.add(DriverUpgradeTrading.INSTANCE);
         Driver.add(DriverUpgradeMF$.MODULE$);
         Driver.add(DriverAPU.Provider$.MODULE$);
@@ -207,7 +207,7 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeSign.PROVIDER);
         Driver.add(DriverUpgradeStickyPiston.PROVIDER);
         Driver.add(DriverUpgradeTankController.PROVIDER);
-        Driver.add(DriverUpgradeTractorBeam.Provider$.MODULE$);
+        Driver.add(DriverUpgradeTractorBeam.PROVIDER);
         Driver.add(DriverUpgradeMF.Provider$.MODULE$);
         Driver.add(EnvironmentProviderBlocks$.MODULE$);
         Driver.add(InventoryProviderDatabase$.MODULE$);
