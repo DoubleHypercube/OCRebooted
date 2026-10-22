@@ -107,18 +107,18 @@ public final class ModOpenComputers implements ModProxy {
         NeoForge.EVENT_BUS.register(NanomachinesHandler.Common$.MODULE$);
         NeoForge.EVENT_BUS.register(Tablet$.MODULE$);
         NeoForge.EVENT_BUS.register(Analyzer$.MODULE$);
-        NeoForge.EVENT_BUS.register(AngelUpgradeHandler$.MODULE$);
+        NeoForge.EVENT_BUS.register(AngelUpgradeHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(ChunkloaderUpgradeHandler$.MODULE$);
         NeoForge.EVENT_BUS.register(ExperienceUpgradeHandler$.MODULE$);
-        NeoForge.EVENT_BUS.register(FileSystemAccessHandler$.MODULE$);
+        NeoForge.EVENT_BUS.register(FileSystemAccessHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(HoverBootsHandler$.MODULE$);
         NeoForge.EVENT_BUS.register(Loot$.MODULE$);
-        NeoForge.EVENT_BUS.register(NetworkActivityHandler$.MODULE$);
+        NeoForge.EVENT_BUS.register(NetworkActivityHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(RobotCommonHandler$.MODULE$);
         NeoForge.EVENT_BUS.register(SaveHandler$.MODULE$);
         NeoForge.EVENT_BUS.register(Waypoints.INSTANCE);
         NeoForge.EVENT_BUS.register(WirelessNetwork.INSTANCE);
-        NeoForge.EVENT_BUS.register(WirelessNetworkCardHandler$.MODULE$);
+        NeoForge.EVENT_BUS.register(WirelessNetworkCardHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(li.cil.oc.client.ComponentTracker$.MODULE$);
         NeoForge.EVENT_BUS.register(li.cil.oc.server.ComponentTracker$.MODULE$);
 
