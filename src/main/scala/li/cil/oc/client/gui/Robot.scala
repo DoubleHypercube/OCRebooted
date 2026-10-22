@@ -26,7 +26,7 @@ class Robot(state: menu.Robot, playerInventory: Inventory, name: Component)
   }
 
   override protected val buffer: TextBuffer = inventoryContainer.info.screenBuffer
-    .flatMap(ComponentTracker.get(Minecraft.getInstance.level, _))
+    .flatMap(ComponentTracker.INSTANCE.get(Minecraft.getInstance.level, _))
     .collectFirst {
       case buffer: TextBuffer => buffer
     }.orNull

@@ -446,7 +446,7 @@ class TextBuffer(val host: EnvironmentHost) extends AbstractManagedEnvironment w
   override def onConnect(node: Node): Unit = {
     super.onConnect(node)
     if (node == this.node) {
-      ServerComponentTracker.add(host.getEnvironmentLevel, node.address, this)
+      ServerComponentTracker.INSTANCE.add(host.getEnvironmentLevel, node.address, this)
       if (pendingExternalLoad) loadExternalData()
     }
   }
@@ -454,7 +454,7 @@ class TextBuffer(val host: EnvironmentHost) extends AbstractManagedEnvironment w
   override def onDisconnect(node: Node): Unit = {
     super.onDisconnect(node)
     if (node == this.node) {
-      ServerComponentTracker.remove(host.getEnvironmentLevel, this)
+      ServerComponentTracker.INSTANCE.remove(host.getEnvironmentLevel, this)
     }
   }
 
@@ -590,7 +590,7 @@ object TextBuffer {
       val chunkPos = chunk.getPos
       val keep = t.host.getEnvironmentLevel != e.getLevel || ((blockPos.x >> 4) != chunkPos.x || (blockPos.z >> 4) != chunkPos.z)
       if (!keep) {
-        ClientComponentTracker.remove(t.host.getEnvironmentLevel, t)
+        ClientComponentTracker.INSTANCE.remove(t.host.getEnvironmentLevel, t)
       }
       keep
     })
@@ -601,7 +601,7 @@ object TextBuffer {
     clientBuffers = clientBuffers.filter(t => {
       val keep = t.host.getEnvironmentLevel != e.getLevel
       if (!keep) {
-        ClientComponentTracker.remove(t.host.getEnvironmentLevel, t)
+        ClientComponentTracker.INSTANCE.remove(t.host.getEnvironmentLevel, t)
       }
       keep
     })
@@ -618,13 +618,13 @@ object TextBuffer {
     // render level. Move the same buffer to the real client level instead.
     val hostLevel = t.host.getEnvironmentLevel
     if (hostLevel != null && hostLevel != level) {
-      ClientComponentTracker.remove(hostLevel, t)
+      ClientComponentTracker.INSTANCE.remove(hostLevel, t)
     }
 
     // Re-applying component data during chunk/menu synchronization must not
     // leave duplicate/stale client buffer registrations behind.
-    ClientComponentTracker.remove(level, t)
-    ClientComponentTracker.add(level, t.proxy.nodeAddress, t)
+    ClientComponentTracker.INSTANCE.remove(level, t)
+    ClientComponentTracker.INSTANCE.add(level, t.proxy.nodeAddress, t)
 
     if (!clientBuffers.contains(t)) {
       clientBuffers += t
@@ -637,10 +637,10 @@ object TextBuffer {
   def unregisterClientBuffer(t: TextBuffer, level: Level): Unit = {
     if (level == null) return
 
-    ClientComponentTracker.remove(level, t)
+    ClientComponentTracker.INSTANCE.remove(level, t)
     val hostLevel = t.host.getEnvironmentLevel
     if (hostLevel != null && hostLevel != level) {
-      ClientComponentTracker.remove(hostLevel, t)
+      ClientComponentTracker.INSTANCE.remove(hostLevel, t)
     }
     clientBuffers -= t
   }

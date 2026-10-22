@@ -873,14 +873,14 @@ object PacketHandler extends CommonPacketHandler {
     }
 
   def onTextBufferPowerChange(p: PacketParser): Unit =
-    ComponentTracker.get(p.player.level, p.readUTF()) match {
+    ComponentTracker.INSTANCE.get(p.player.level, p.readUTF()) match {
       case Some(buffer: api.internal.TextBuffer) =>
         buffer.setRenderingEnabled(p.readBoolean())
       case _ => // Invalid packet.
     }
 
   def onTextBufferInit(p: PacketParser): Unit = {
-    ComponentTracker.get(p.player.level, p.readUTF()) match {
+    ComponentTracker.INSTANCE.get(p.player.level, p.readUTF()) match {
       case Some(buffer: li.cil.oc.common.component.TextBuffer) =>
         val nbt = CompoundStorage.CODEC.parse(NbtOps.INSTANCE, p.readNBT()).getOrThrow()
         buffer.setMaximumResolution(p.readInt(), p.readInt())
@@ -896,7 +896,7 @@ object PacketHandler extends CommonPacketHandler {
   }
 
   def onTextBufferMulti(p: PacketParser): Unit =
-    if (p.player != null) ComponentTracker.get(p.player.level, p.readUTF()) match {
+    if (p.player != null) ComponentTracker.INSTANCE.get(p.player.level, p.readUTF()) match {
       case Some(buffer: li.cil.oc.common.component.TextBuffer) if !buffer.isInitialized =>
         // The client registers a buffer before its authoritative init snapshot
         // arrives. Incremental updates generated in that window are already

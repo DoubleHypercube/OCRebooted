@@ -119,8 +119,8 @@ public final class ModOpenComputers implements ModProxy {
         NeoForge.EVENT_BUS.register(Waypoints.INSTANCE);
         NeoForge.EVENT_BUS.register(WirelessNetwork.INSTANCE);
         NeoForge.EVENT_BUS.register(WirelessNetworkCardHandler.INSTANCE);
-        NeoForge.EVENT_BUS.register(li.cil.oc.client.ComponentTracker$.MODULE$);
-        NeoForge.EVENT_BUS.register(li.cil.oc.server.ComponentTracker$.MODULE$);
+        NeoForge.EVENT_BUS.register(li.cil.oc.client.ComponentTracker.INSTANCE);
+        NeoForge.EVENT_BUS.register(li.cil.oc.server.ComponentTracker.INSTANCE);
 
         Driver.add(ConverterNanomachines.INSTANCE);
         Driver.add(ConverterLinkedCard.INSTANCE);

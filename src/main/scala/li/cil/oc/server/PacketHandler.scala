@@ -172,7 +172,7 @@ object PacketHandler extends CommonPacketHandler {
   def onCopyToAnalyzer(p: PacketParser): Unit = {
     val text = p.readUTF()
     val line = p.readInt()
-    ComponentTracker.get(p.player.level, text) match {
+    ComponentTracker.INSTANCE.get(p.player.level, text) match {
       case Some(buffer: TextBuffer) => buffer.copyToAnalyzer(line, p.player.asInstanceOf[Player])
       case _ => // Invalid Packet
     }
@@ -254,7 +254,7 @@ object PacketHandler extends CommonPacketHandler {
     val address = p.readUTF()
     val key = p.readChar()
     val code = p.readInt()
-    ComponentTracker.get(p.player.level, address) match {
+    ComponentTracker.INSTANCE.get(p.player.level, address) match {
       case Some(buffer: api.internal.TextBuffer) if canInteractWith(buffer, p.player) => buffer.keyDown(key, code, p.player)
       case _ => // Invalid Packet
     }
@@ -264,7 +264,7 @@ object PacketHandler extends CommonPacketHandler {
     val address = p.readUTF()
     val key = p.readChar()
     val code = p.readInt()
-    ComponentTracker.get(p.player.level, address) match {
+    ComponentTracker.INSTANCE.get(p.player.level, address) match {
       case Some(buffer: api.internal.TextBuffer) if canInteractWith(buffer, p.player) => buffer.keyUp(key, code, p.player)
       case _ => // Invalid Packet
     }
@@ -274,7 +274,7 @@ object PacketHandler extends CommonPacketHandler {
     val address = p.readUTF()
     val codePt = p.readInt()
     if (codePt >= 0 && codePt <= Character.MAX_CODE_POINT) {
-      ComponentTracker.get(p.player.level, address) match {
+      ComponentTracker.INSTANCE.get(p.player.level, address) match {
         case Some(buffer: api.internal.TextBuffer) if canInteractWith(buffer, p.player) => buffer.textInput(codePt, p.player)
         case _ => // Invalid Packet
       }
@@ -285,7 +285,7 @@ object PacketHandler extends CommonPacketHandler {
     val address = p.readUTF()
     val copy = p.readUTF()
     if (copy.length > Settings.get.maxClipboardTextLength) return
-    ComponentTracker.get(p.player.level, address) match {
+    ComponentTracker.INSTANCE.get(p.player.level, address) match {
       case Some(buffer: api.internal.TextBuffer) if canInteractWith(buffer, p.player) => buffer.clipboard(copy, p.player)
       case _ => // Invalid Packet
     }
@@ -297,7 +297,7 @@ object PacketHandler extends CommonPacketHandler {
     val y = p.readFloat()
     val dragging = p.readBoolean()
     val button = p.readByte()
-    ComponentTracker.get(p.player.level, address) match {
+    ComponentTracker.INSTANCE.get(p.player.level, address) match {
       case Some(buffer: api.internal.TextBuffer) if canInteractWith(buffer, p.player) =>
         val player = p.player
         if (dragging) buffer.mouseDrag(x, y, button, player)
@@ -311,7 +311,7 @@ object PacketHandler extends CommonPacketHandler {
     val x = p.readFloat()
     val y = p.readFloat()
     val button = p.readByte()
-    ComponentTracker.get(p.player.level, address) match {
+    ComponentTracker.INSTANCE.get(p.player.level, address) match {
       case Some(buffer: api.internal.TextBuffer) if canInteractWith(buffer, p.player) =>
         val player = p.player
         buffer.mouseUp(x, y, button, player)
@@ -324,7 +324,7 @@ object PacketHandler extends CommonPacketHandler {
     val x = p.readFloat()
     val y = p.readFloat()
     val button = p.readByte()
-    ComponentTracker.get(p.player.level, address) match {
+    ComponentTracker.INSTANCE.get(p.player.level, address) match {
       case Some(buffer: api.internal.TextBuffer) if canInteractWith(buffer, p.player) =>
         val player = p.player
         buffer.mouseScroll(x, y, button, player)
@@ -443,7 +443,7 @@ object PacketHandler extends CommonPacketHandler {
     val address = p.readUTF()
     p.player match {
       case entity: ServerPlayer =>
-        ComponentTracker.get(p.player.level, address) match {
+        ComponentTracker.INSTANCE.get(p.player.level, address) match {
           case Some(buffer: TextBuffer) =>
             buffer.host match {
               case screen: Screen => screen.ensureServerBufferLoaded()
