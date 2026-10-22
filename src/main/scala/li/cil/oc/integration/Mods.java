@@ -4,7 +4,7 @@ import li.cil.oc.OpenComputers;
 import li.cil.oc.Settings;
 import li.cil.oc.integration.appeng.ModAppliedEnergistics2;
 import li.cil.oc.integration.computercraft.ModComputerCraft;
-import li.cil.oc.integration.create.ModCreate$;
+import li.cil.oc.integration.create.ModCreate;
 import li.cil.oc.integration.enderstorage.ModEnderStorage;
 import li.cil.oc.integration.immersiveengineering.ModImmersiveEngineering$;
 import li.cil.oc.integration.mekanism.ModMekanism;
@@ -49,7 +49,7 @@ public final class Mods {
 
     // Keep the original order: OpenComputers initializes after the optional integrations.
     private static final ModProxy[] PROXIES = {
-        ModCreate$.MODULE$,
+        ModCreate.INSTANCE,
         ModNeoForge.INSTANCE,
         ModMekanism.INSTANCE,
         ModMinecraft$.MODULE$,
