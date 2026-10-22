@@ -16,10 +16,10 @@ import li.cil.oc.api.prefab.ItemStackTabIconRenderer;
 import li.cil.oc.api.prefab.ResourceContentProvider;
 import li.cil.oc.api.prefab.SpriteTabIconRenderer;
 import li.cil.oc.client.Textures;
-import li.cil.oc.client.renderer.markdown.segment.render.BlockImageProvider$;
-import li.cil.oc.client.renderer.markdown.segment.render.ItemImageProvider$;
-import li.cil.oc.client.renderer.markdown.segment.render.TagImageProvider$;
-import li.cil.oc.client.renderer.markdown.segment.render.TextureImageProvider$;
+import li.cil.oc.client.renderer.markdown.segment.render.BlockImageProvider;
+import li.cil.oc.client.renderer.markdown.segment.render.ItemImageProvider;
+import li.cil.oc.client.renderer.markdown.segment.render.TagImageProvider;
+import li.cil.oc.client.renderer.markdown.segment.render.TextureImageProvider;
 import li.cil.oc.common.EventHandler$;
 import li.cil.oc.common.Loot$;
 import li.cil.oc.common.SaveHandler$;
@@ -329,10 +329,10 @@ public final class ModOpenComputers implements ModProxy {
     private void initializeClient() {
         Manual.addProvider(DefinitionPathProvider.INSTANCE);
         Manual.addProvider(new ResourceContentProvider(Settings.resourceDomain(), "doc/"));
-        Manual.addProvider("", TextureImageProvider$.MODULE$);
-        Manual.addProvider("item", ItemImageProvider$.MODULE$);
-        Manual.addProvider("block", BlockImageProvider$.MODULE$);
-        Manual.addProvider("oredict", TagImageProvider$.MODULE$);
+        Manual.addProvider("", TextureImageProvider.INSTANCE);
+        Manual.addProvider("item", ItemImageProvider.INSTANCE);
+        Manual.addProvider("block", BlockImageProvider.INSTANCE);
+        Manual.addProvider("oredict", TagImageProvider.INSTANCE);
         OpenPrinter.registerManual();
 
         Manual.addTab(new SpriteTabIconRenderer(Textures.GUISprites$.MODULE$.ManualHome()),
