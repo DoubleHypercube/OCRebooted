@@ -3,9 +3,8 @@ package li.cil.oc.client.renderer.markdown.segment;
 import li.cil.oc.OpenComputers;
 import li.cil.oc.api.API;
 import li.cil.oc.client.Manual;
-import li.cil.oc.client.renderer.markdown.MarkupFormat$;
+import li.cil.oc.client.renderer.markdown.MarkupFormat;
 import net.minecraft.Util;
-import scala.Enumeration;
 import scala.Option;
 import scala.Some;
 
@@ -79,8 +78,8 @@ public class LinkSegment extends TextSegment implements InteractiveSegment {
     }
 
     @Override
-    public String toString(Enumeration.Value format) {
-        if (format == MarkupFormat$.MODULE$.Markdown()) return "[" + text() + "](" + url + ")";
+    public String toString(MarkupFormat format) {
+        if (format == MarkupFormat.Markdown) return "[" + text() + "](" + url + ")";
         return isExternalUrl() ? text() : "[link{" + OpenComputers.ID() + ":" + url + "}]" + text() + " [link{}]";
     }
 }

@@ -2,10 +2,9 @@ package li.cil.oc.client.renderer.markdown.segment;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import li.cil.oc.client.renderer.TextBufferRenderCache;
-import li.cil.oc.client.renderer.markdown.MarkupFormat$;
+import li.cil.oc.client.renderer.markdown.MarkupFormat;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import scala.Enumeration;
 import scala.Option;
 import scala.collection.immutable.Set;
 
@@ -94,13 +93,13 @@ public class CodeSegment implements BasicTextSegment {
     }
 
     @Override
-    public String toString(Enumeration.Value format) {
-        if (format == MarkupFormat$.MODULE$.Markdown()) return "`" + text + "`";
+    public String toString(MarkupFormat format) {
+        if (format == MarkupFormat.Markdown) return "`" + text + "`";
         return "[prefix{1}]" + text + " [prefix{}]";
     }
 
     @Override
     public String toString() {
-        return toString(MarkupFormat$.MODULE$.Markdown());
+        return toString(MarkupFormat.Markdown);
     }
 }

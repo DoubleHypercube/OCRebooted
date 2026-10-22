@@ -38,7 +38,7 @@ trait BasicTextSegment extends Segment {
     lines * lineHeight(renderer)
   }
 
-  override def toString(format: MarkupFormat.Value): String = text
+  override def toString(format: MarkupFormat): String = text
 
   // ----------------------------------------------------------------------- //
 

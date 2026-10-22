@@ -4,10 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import li.cil.oc.api.manual.ImageRenderer;
 import li.cil.oc.api.manual.InteractiveImageRenderer;
 import li.cil.oc.client.renderer.markdown.Document;
-import li.cil.oc.client.renderer.markdown.MarkupFormat$;
+import li.cil.oc.client.renderer.markdown.MarkupFormat;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import scala.Enumeration;
 import scala.Option;
 
 public class RenderSegment implements InteractiveSegment {
@@ -130,13 +129,13 @@ public class RenderSegment implements InteractiveSegment {
     }
 
     @Override
-    public String toString(Enumeration.Value format) {
-        if (format == MarkupFormat$.MODULE$.Markdown()) return "![" + title + "](" + imageRenderer + ")";
+    public String toString(MarkupFormat format) {
+        if (format == MarkupFormat.Markdown) return "![" + title + "](" + imageRenderer + ")";
         return "(Sorry, images only work in the OpenComputers manual for now.)";
     }
 
     @Override
     public String toString() {
-        return toString(MarkupFormat$.MODULE$.Markdown());
+        return toString(MarkupFormat.Markdown);
     }
 }

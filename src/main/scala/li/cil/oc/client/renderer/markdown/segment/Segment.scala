@@ -49,7 +49,7 @@ trait Segment {
    */
   def render(graphics: GuiGraphics, x: Int, y: Int, indent: Int, maxWidth: Int, renderer: Font, mouseX: Int, mouseY: Int): Option[InteractiveSegment] = None
 
-  def renderAsText(format: MarkupFormat.Value): Iterable[String] = {
+  def renderAsText(format: MarkupFormat): Iterable[String] = {
     var segment = this
     val result = mutable.Buffer.empty[String]
     val builder = new mutable.StringBuilder()
@@ -64,7 +64,7 @@ trait Segment {
     result.toSeq
   }
 
-  def toString(format: MarkupFormat.Value): String
+  def toString(format: MarkupFormat): String
 
   override def toString: String = toString(MarkupFormat.Markdown)
 

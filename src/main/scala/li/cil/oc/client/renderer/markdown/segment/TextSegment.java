@@ -1,10 +1,9 @@
 package li.cil.oc.client.renderer.markdown.segment;
 
 import li.cil.oc.client.renderer.markdown.Document;
-import li.cil.oc.client.renderer.markdown.MarkupFormat$;
+import li.cil.oc.client.renderer.markdown.MarkupFormat;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import scala.Enumeration;
 import scala.Function2;
 import scala.Option;
 import scala.collection.Iterable;
@@ -169,12 +168,12 @@ public class TextSegment implements BasicTextSegment {
     }
 
     @Override
-    public String toString(Enumeration.Value format) {
+    public String toString(MarkupFormat format) {
         return text;
     }
 
     @Override
     public String toString() {
-        return toString(MarkupFormat$.MODULE$.Markdown());
+        return toString(MarkupFormat.Markdown);
     }
 }

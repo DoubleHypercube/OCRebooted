@@ -2,11 +2,10 @@ package li.cil.oc.client.renderer.markdown.segment;
 
 import li.cil.oc.client.renderer.TextBufferRenderCache;
 import li.cil.oc.client.renderer.markdown.Document;
-import li.cil.oc.client.renderer.markdown.MarkupFormat$;
+import li.cil.oc.client.renderer.markdown.MarkupFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import scala.Enumeration;
 import scala.Option;
 import scala.collection.immutable.Seq;
 
@@ -82,12 +81,12 @@ public class CodeBlockSegment implements InteractiveSegment {
     }
 
     @Override
-    public String toString(Enumeration.Value format) {
-        return format == MarkupFormat$.MODULE$.Markdown() ? "```\n" + contents + "\n```" : contents;
+    public String toString(MarkupFormat format) {
+        return format == MarkupFormat.Markdown ? "```\n" + contents + "\n```" : contents;
     }
 
     @Override
     public String toString() {
-        return toString(MarkupFormat$.MODULE$.Markdown());
+        return toString(MarkupFormat.Markdown);
     }
 }

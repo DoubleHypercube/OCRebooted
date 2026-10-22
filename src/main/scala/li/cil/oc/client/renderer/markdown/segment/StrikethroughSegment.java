@@ -1,8 +1,7 @@
 package li.cil.oc.client.renderer.markdown.segment;
 
-import li.cil.oc.client.renderer.markdown.MarkupFormat$;
+import li.cil.oc.client.renderer.markdown.MarkupFormat;
 import net.minecraft.ChatFormatting;
-import scala.Enumeration;
 
 public class StrikethroughSegment extends TextSegment {
     public StrikethroughSegment(Segment parent, String text) {
@@ -15,8 +14,8 @@ public class StrikethroughSegment extends TextSegment {
     }
 
     @Override
-    public String toString(Enumeration.Value format) {
-        if (format == MarkupFormat$.MODULE$.Markdown()) return "~~" + text() + "~~";
+    public String toString(MarkupFormat format) {
+        if (format == MarkupFormat.Markdown) return "~~" + text() + "~~";
         return "[prefix{m}]" + text() + " [prefix{}]";
     }
 }

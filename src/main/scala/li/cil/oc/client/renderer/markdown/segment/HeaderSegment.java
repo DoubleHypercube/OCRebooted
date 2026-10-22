@@ -1,8 +1,7 @@
 package li.cil.oc.client.renderer.markdown.segment;
 
-import li.cil.oc.client.renderer.markdown.MarkupFormat$;
+import li.cil.oc.client.renderer.markdown.MarkupFormat;
 import net.minecraft.ChatFormatting;
-import scala.Enumeration;
 import scala.Option;
 import scala.Some;
 
@@ -31,8 +30,8 @@ public class HeaderSegment extends TextSegment {
     }
 
     @Override
-    public String toString(Enumeration.Value format) {
-        if (format == MarkupFormat$.MODULE$.Markdown()) return "#".repeat(Math.max(0, level)) + " " + text();
+    public String toString(MarkupFormat format) {
+        if (format == MarkupFormat.Markdown) return "#".repeat(Math.max(0, level)) + " " + text();
         return "[prefix{l}]" + text() + " [prefix{}]";
     }
 }
