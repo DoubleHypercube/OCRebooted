@@ -18,6 +18,10 @@ public class Relay extends DynamicGuiContainer<li.cil.oc.common.menu.Relay> {
         tabPosition = new Rect2i(imageWidth, 10, 23, 26);
     }
 
+    public int getGuiLeft() { return leftPos; }
+
+    public int getGuiTop() { return topPos; }
+
     @Override
     public void drawSecondaryBackgroundLayer(GuiGraphics graphics) {
         super.drawSecondaryBackgroundLayer(graphics);

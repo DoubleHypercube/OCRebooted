@@ -38,7 +38,7 @@ class ModPluginOpenComputers extends IModPlugin {
   }
 
   override def registerGuiHandlers(registration: IGuiHandlerRegistration): Unit =
-    registration.addGuiContainerHandler(classOf[Relay], RelayGuiHandler)
+    registration.addGuiContainerHandler(classOf[Relay], RelayGuiHandler.INSTANCE)
 
   override def registerAdvanced(registration: IAdvancedRegistration): Unit = {
     val guiHelper = registration.getJeiHelpers.getGuiHelper
