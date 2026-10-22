@@ -500,7 +500,7 @@ class Robot(pos: BlockPos, state: BlockState)
 
     holder.setComponent(OCComponents.ROBOT_TOTAL_ANIMATION_TIME, Option.when(isAnimating) { animationTicksTotal })
     holder.setComponent(OCComponents.ROBOT_CURRENT_ANIMATION, Option.when(isAnimating) {
-      RobotCurrentAnimation(
+      new RobotCurrentAnimation(
         animationTicksLeft,
         moveFrom,
         swingingTool,
