@@ -8,7 +8,7 @@ import li.cil.oc.integration.create.ModCreate;
 import li.cil.oc.integration.enderstorage.ModEnderStorage;
 import li.cil.oc.integration.immersiveengineering.ModImmersiveEngineering;
 import li.cil.oc.integration.mekanism.ModMekanism;
-import li.cil.oc.integration.minecraft.ModMinecraft$;
+import li.cil.oc.integration.minecraft.ModMinecraft;
 import li.cil.oc.integration.multipart.ModCBMultipart$;
 import li.cil.oc.integration.neoforge.ModNeoForge;
 import li.cil.oc.integration.opencomputers.ModOpenComputers;
@@ -52,7 +52,7 @@ public final class Mods {
         ModCreate.INSTANCE,
         ModNeoForge.INSTANCE,
         ModMekanism.INSTANCE,
-        ModMinecraft$.MODULE$,
+        ModMinecraft.INSTANCE,
         ModComputerCraft.INSTANCE,
         ModAppliedEnergistics2.INSTANCE,
         ModEnderStorage.INSTANCE,
