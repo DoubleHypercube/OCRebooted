@@ -269,7 +269,7 @@ trait Computer extends Environment with ComponentInventory with Rotatable with B
 
   override protected def onRedstoneInputChanged(args: RedstoneChangedEventArgs): Unit = {
     super.onRedstoneInputChanged(args)
-    val toLocalArgs = RedstoneChangedEventArgs(toLocal(args.side), args.oldValue, args.newValue, args.color)
+    val toLocalArgs = new RedstoneChangedEventArgs(toLocal(args.side), args.oldValue, args.newValue, args.color)
     machine.node.sendToNeighbors("redstone.changed", toLocalArgs)
   }
 

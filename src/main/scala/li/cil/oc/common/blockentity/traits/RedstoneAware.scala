@@ -9,8 +9,6 @@ import li.cil.oc.util.BlockPosHelper
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.core.{Direction, HolderLookup}
 
-case class RedstoneChangedEventArgs (side: Direction, oldValue: Int, newValue: Int, color: Int = -1)
-
 trait RedstoneAware extends RotationAware {
   protected[blockentity] val _input: Array[Int] = Array.fill(6)(-1)
 
@@ -64,7 +62,7 @@ trait RedstoneAware extends RotationAware {
     val oldInput = _input(side.ordinal())
     _input(side.ordinal()) = newInput
     if (oldInput >= 0 && newInput != oldInput) {
-      onRedstoneInputChanged(RedstoneChangedEventArgs(side, oldInput, newInput))
+      onRedstoneInputChanged(new RedstoneChangedEventArgs(side, oldInput, newInput))
     }
   }
 

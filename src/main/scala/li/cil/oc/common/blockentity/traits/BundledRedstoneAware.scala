@@ -86,7 +86,7 @@ trait BundledRedstoneAware extends RedstoneAware {
     if (oldValue != newValue) {
       inputs(sideIndex)(colorIndex) = newValue
       if (oldValue != -1) {
-        onRedstoneInputChanged(RedstoneChangedEventArgs(side, oldValue, newValue, colorIndex))
+        onRedstoneInputChanged(new RedstoneChangedEventArgs(side, oldValue, newValue, colorIndex))
       }
     }
   }
