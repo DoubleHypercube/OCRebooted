@@ -17,7 +17,7 @@ object ModProjectRed extends ModProxy with RedstoneProvider {
     api.IMC.registerWrenchToolCheck("li.cil.oc.integration.projectred.EventHandlerProjectRed.isWrench")
 
     BundledRedstone.addProvider(this)
-    BundledProviderProjectRed.install()
+    BundledProviderProjectRed.INSTANCE.install()
   }
 
   override def computeInput(pos: BlockPosition, side: Direction): Int = 0
