@@ -213,11 +213,11 @@ trait ComponentInventory extends Inventory with network.Environment {
     }
 
     driver match {
-      case DriverTablet =>
+      case DriverTablet.INSTANCE =>
         // A tablet exposes its embedded filesystem as the component. Loading
         // from the outer tablet stack would make the filesystem consume the
         // tablet's own data components (including its battery state).
-        DriverTablet.withFileSystemStack(stack)(loadFrom)
+        DriverTablet.withFileSystemStack(stack, loadFrom)
         // The embedded drive is normally a neighbor-visible component inside
         // the tablet. In a charger it is a proxy component for the charger's
         // whole network, so restore the driver's visibility override after
@@ -264,14 +264,14 @@ trait ComponentInventory extends Inventory with network.Environment {
       }
 
       driver match {
-        case DriverTablet =>
+        case DriverTablet.INSTANCE =>
           // The environment represented by a tablet in a component slot is its
           // embedded filesystem. Persist it into that nested disk ItemStack and
           // then write the updated contents back to the tablet. Never serialize
           // the filesystem node directly onto the outer tablet stack, because
           // connector persistence uses OCComponents.CHARGE and would overwrite
           // the tablet's battery.
-          DriverTablet.withFileSystemStack(stack)(saveTo)
+          DriverTablet.withFileSystemStack(stack, saveTo)
         case _ => saveTo(stack)
       }
     } catch {

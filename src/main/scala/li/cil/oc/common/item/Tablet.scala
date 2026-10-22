@@ -459,6 +459,7 @@ class TabletWrapper(var stack: ItemStack, var player: Player) extends ComponentI
 }
 
 object Tablet {
+  def invalidate(stack: ItemStack): Unit = Server.invalidate(stack)
   // This is super-hacky, but since it's only used on the client we get away
   // with storing context information for analyzing a block in the singleton.
   var currentlyAnalyzing: Option[(BlockPosition, Direction, Float, Float, Float)] = None
