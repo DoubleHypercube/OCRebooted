@@ -32,7 +32,7 @@ import li.cil.oc.common.openprinter.OpenPrinter;
 import li.cil.oc.common.template.*;
 import li.cil.oc.integration.ModProxy;
 import li.cil.oc.integration.Mods;
-import li.cil.oc.integration.SableTickBridge$;
+import li.cil.oc.integration.SableTickBridge;
 import li.cil.oc.integration.util.BundledRedstone;
 import li.cil.oc.server.network.Waypoints;
 import li.cil.oc.server.network.WirelessNetwork;
@@ -101,7 +101,7 @@ public final class ModOpenComputers implements ModProxy {
 
         OpenComputers.proxy().modBus().addListener(EventHandler$.MODULE$::onRegisterCapabilities);
         OpenComputers.proxy().modBus().addListener(ChunkloaderUpgradeHandler.INSTANCE::onRegisterTicketControllers);
-        OpenComputers.proxy().modBus().addListener(SableTickBridge$.MODULE$::onRegisterTicketControllers);
+        OpenComputers.proxy().modBus().addListener(SableTickBridge::onRegisterTicketControllers);
 
         NeoForge.EVENT_BUS.register(EventHandler$.MODULE$);
         NeoForge.EVENT_BUS.register(NanomachinesHandler.Common.INSTANCE);
