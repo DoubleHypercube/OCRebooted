@@ -210,8 +210,8 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeTractorBeam.PROVIDER);
         Driver.add(DriverUpgradeMF.PROVIDER);
         Driver.add(EnvironmentProviderBlocks$.MODULE$);
-        Driver.add(InventoryProviderDatabase$.MODULE$);
-        Driver.add(InventoryProviderServer$.MODULE$);
+        Driver.add(InventoryProviderDatabase.INSTANCE);
+        Driver.add(InventoryProviderServer.INSTANCE);
 
         blacklistHost(li.cil.oc.api.internal.Adapter.class,
             Constants.BlockName$.MODULE$.Geolyzer(),
