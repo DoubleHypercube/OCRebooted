@@ -138,8 +138,8 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverLinkedCard.INSTANCE);
         Driver.add(DriverNavigationCard$.MODULE$);
         Driver.add(DriverLootDisk$.MODULE$);
-        Driver.add(DriverMemory$.MODULE$);
-        Driver.add(DriverCreativeMemory$.MODULE$);
+        Driver.add(DriverMemory.INSTANCE);
+        Driver.add(DriverCreativeMemory.INSTANCE);
         Driver.add(DriverNetworkCard.INSTANCE);
         Driver.add(DriverKeyboard$.MODULE$);
         Driver.add(DriverRedstoneCard$.MODULE$);
