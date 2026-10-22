@@ -114,7 +114,7 @@ public final class ModOpenComputers implements ModProxy {
         NeoForge.EVENT_BUS.register(HoverBootsHandler$.MODULE$);
         NeoForge.EVENT_BUS.register(Loot$.MODULE$);
         NeoForge.EVENT_BUS.register(NetworkActivityHandler.INSTANCE);
-        NeoForge.EVENT_BUS.register(RobotCommonHandler$.MODULE$);
+        NeoForge.EVENT_BUS.register(RobotCommonHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(SaveHandler$.MODULE$);
         NeoForge.EVENT_BUS.register(Waypoints.INSTANCE);
         NeoForge.EVENT_BUS.register(WirelessNetwork.INSTANCE);
