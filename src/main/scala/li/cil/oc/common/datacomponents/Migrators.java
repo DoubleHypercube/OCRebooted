@@ -432,7 +432,7 @@ public final class Migrators {
                 c.require(d.tag("color"));
             }
             return new TextBufferContents(width, height, depth, foreground, foregroundPalette,
-                background, backgroundPalette, list(buffer), new TextBufferContents.IntArray(colors));
+                background, backgroundPalette, buffer, new TextBufferContents.IntArray(colors));
         });
     }
 

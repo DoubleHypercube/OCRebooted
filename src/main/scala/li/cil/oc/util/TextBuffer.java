@@ -220,7 +220,7 @@ public class TextBuffer implements Persistable {
         size_$eq(new Tuple2<>(contents.width(), contents.height()));
         var lines = contents.buffer();
         for (int i = 0; i < Math.min(height, lines.size()); i++) {
-            String line = lines.apply(i);
+            String line = lines.get(i);
             int[] cps = line.codePoints().toArray();
             System.arraycopy(cps, 0, buffer[i], 0, Math.min(width, cps.length));
         }
@@ -236,9 +236,9 @@ public class TextBuffer implements Persistable {
     @Override public void saveData(MutableDataComponentHolder holder) {
         java.util.List<String> lines = new java.util.ArrayList<>(height);
         for (int y = 0; y < height; y++) lines.add(lineToString(y));
-        ExtendedDataComponentHolder$.MODULE$.convert(holder).setComponent(OCComponents$.MODULE$.TEXT_BUFFER().get(), TextBufferContents.apply(width, height, format.depth().ordinal(),
+        ExtendedDataComponentHolder$.MODULE$.convert(holder).setComponent(OCComponents$.MODULE$.TEXT_BUFFER().get(), new TextBufferContents(width, height, format.depth().ordinal(),
                 foreground.value(), foreground.isPalette(), background.value(), background.isPalette(),
-                scala.jdk.javaapi.CollectionConverters.asScala(lines).toList(),
+                lines,
                 TextBufferContents.intArray(color)));
         format.saveData(holder);
     }
