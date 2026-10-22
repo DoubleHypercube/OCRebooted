@@ -26,6 +26,8 @@ public class SafeThreadPool {
         return withPool(action, true);
     }
 
+    public boolean withPool$default$2() { return true; }
+
     public Option<Future<?>> withPool(Function1<ScheduledExecutorService, Future<?>> action, boolean requiresPool) {
         if (threadPool == null) {
             OpenComputers.log().warn("Error handling file saving: Did the server never start?");

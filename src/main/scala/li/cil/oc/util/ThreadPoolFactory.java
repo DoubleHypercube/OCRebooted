@@ -7,9 +7,10 @@ import li.cil.oc.server.fs.Buffered;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import scala.collection.mutable.ArrayBuffer;
+import scala.collection.mutable.ArrayBuffer$;
+import scala.jdk.javaapi.CollectionConverters;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -18,9 +19,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class ThreadPoolFactory {
     public static final ThreadPoolFactory INSTANCE = new ThreadPoolFactory();
     private static final int priority = threadPriority();
-    private static final List<SafeThreadPool> safePools = new ArrayList<>();
+    private static final ArrayBuffer<SafeThreadPool> safePools = ArrayBuffer$.MODULE$.empty();
 
     private ThreadPoolFactory() {}
+
+    public static int priority() { return priority; }
+
+    public static ArrayBuffer<SafeThreadPool> safePools() { return safePools; }
 
     private static int threadPriority() {
         int custom = Settings.get() == null ? -1 : Settings.get().threadPriority();
@@ -32,7 +37,7 @@ public final class ThreadPoolFactory {
     public void serverStart(ServerAboutToStartEvent event) {
         SaveHandler.stateSaveHandler();
         Buffered.fileSaveHandler();
-        for (SafeThreadPool pool : safePools) pool.newThreadPool();
+        for (SafeThreadPool pool : CollectionConverters.asJava(safePools)) pool.newThreadPool();
 
         if (Settings.get().internetAccessConfigured()) {
             if (Settings.get().internetFilteringRulesInvalid()) {
@@ -64,7 +69,7 @@ public final class ThreadPoolFactory {
 
     @SubscribeEvent
     public void serverStop(ServerStoppedEvent event) {
-        for (SafeThreadPool pool : safePools) pool.waitForCompletion();
+        for (SafeThreadPool pool : CollectionConverters.asJava(safePools)) pool.waitForCompletion();
     }
 
     public static ScheduledExecutorService create(String name, int threads) {
@@ -86,7 +91,7 @@ public final class ThreadPoolFactory {
 
     public static SafeThreadPool createSafePool(String name, int threads) {
         SafeThreadPool pool = new SafeThreadPool(name, threads);
-        safePools.add(pool);
+        safePools.addOne(pool);
         return pool;
     }
 }
