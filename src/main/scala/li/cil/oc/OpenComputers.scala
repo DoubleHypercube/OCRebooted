@@ -83,7 +83,7 @@ class OpenComputers(modBus: IEventBus, modContainer: ModContainer) {
   OpenComputers.instance = Some(this)
   modBus.register(OpenComputers.proxy)
   OpenComputers.proxy.preInit()
-  NeoForge.EVENT_BUS.register(ThreadPoolFactory)
+  NeoForge.EVENT_BUS.register(ThreadPoolFactory.INSTANCE)
   NeoForge.EVENT_BUS.register(LootTableHandler.INSTANCE)
   NeoForge.EVENT_BUS.register(VillageContent.INSTANCE)
   NeoForge.EVENT_BUS.addListener(CommandHandler.onRegisterCommands)

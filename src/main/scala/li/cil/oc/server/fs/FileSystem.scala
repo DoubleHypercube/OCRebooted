@@ -166,7 +166,7 @@ object FileSystem extends api.detail.FileSystemAPI {
     Option(fileSystem).map(fs => new component.FileSystem(fs, label, Option(host), Option(accessSound),
       (speed - 1) max 0 min 5, readEnergyCost max 0, writeEnergyCost max 0)).orNull
 
-  def asManagedEnvironment(fileSystem: api.fs.FileSystem, label: String, host: EnvironmentHost, accessSound: String, speed: Int) =
+  def asManagedEnvironment(fileSystem: api.fs.FileSystem, label: String, host: EnvironmentHost, accessSound: String, speed: Int): component.FileSystem =
     asManagedEnvironment(fileSystem, new ReadOnlyLabel(label), host, accessSound, speed)
 
   def asManagedEnvironment(fileSystem: api.fs.FileSystem, label: Label, host: EnvironmentHost, sound: String) =
