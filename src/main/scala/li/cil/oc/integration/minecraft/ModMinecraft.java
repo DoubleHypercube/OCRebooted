@@ -25,9 +25,9 @@ public final class ModMinecraft implements ModProxy, BundledRedstone.RedstonePro
         Driver.add(DriverBeacon$.MODULE$);
         Driver.add(DriverBrewingStand$.MODULE$);
         Driver.add(DriverComparator$.MODULE$);
-        Driver.add(DriverFurnace$.MODULE$);
-        Driver.add(DriverBlastFurnace$.MODULE$);
-        Driver.add(DriverSmoker$.MODULE$);
+        Driver.add(DriverFurnace.INSTANCE);
+        Driver.add(DriverBlastFurnace.INSTANCE);
+        Driver.add(DriverSmoker.INSTANCE);
         Driver.add(DriverMobSpawner$.MODULE$);
         Driver.add(DriverNoteBlock$.MODULE$);
         Driver.add(DriverRecordPlayer$.MODULE$);
@@ -35,9 +35,9 @@ public final class ModMinecraft implements ModProxy, BundledRedstone.RedstonePro
         Driver.add(DriverBeacon.Provider$.MODULE$);
         Driver.add(DriverBrewingStand.Provider$.MODULE$);
         Driver.add(DriverComparator.Provider$.MODULE$);
-        Driver.add(DriverFurnace.Provider$.MODULE$);
-        Driver.add(DriverBlastFurnace.Provider$.MODULE$);
-        Driver.add(DriverSmoker.Provider$.MODULE$);
+        Driver.add(DriverFurnace.PROVIDER);
+        Driver.add(DriverBlastFurnace.PROVIDER);
+        Driver.add(DriverSmoker.PROVIDER);
         Driver.add(DriverMobSpawner.Provider$.MODULE$);
         Driver.add(DriverNoteBlock.Provider$.MODULE$);
         Driver.add(DriverRecordPlayer.Provider$.MODULE$);
