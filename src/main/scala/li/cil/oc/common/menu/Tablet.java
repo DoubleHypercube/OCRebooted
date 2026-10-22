@@ -20,7 +20,7 @@ public class Tablet extends AbstractMenu {
             90, 35, getHostClass(), slot1, tier1) {
             @Override
             public boolean mayPlace(ItemStack item) {
-                return !DriverScreen.worksWith(item, getHostClass()) && super.mayPlace(item);
+                return !DriverScreen.INSTANCE.worksWith(item, getHostClass()) && super.mayPlace(item);
             }
         });
         addPlayerInventorySlots(8, 84);

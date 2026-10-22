@@ -334,7 +334,7 @@ class TabletWrapper(var stack: ItemStack, var player: Player) extends ComponentI
     case Some(driver) =>
       // Same special cases, similar as in robot, but allow keyboards,
       // because clip-on keyboards kinda seem to make sense, I guess.
-      driver != DriverScreen &&
+      driver != DriverScreen.INSTANCE &&
         driver.slot(stack) == containerSlotType &&
         driver.tier(stack) <= containerSlotTier
     case _ => false

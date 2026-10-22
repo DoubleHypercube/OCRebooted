@@ -766,7 +766,7 @@ class Robot(pos: BlockPos, state: BlockState)
       // Since these are very special (as they have special behavior in the
       // GUI) I feel it's OK to handle it like this, instead of some extra API
       // logic making the differentiation of assembler and containers generic.
-      driver != DriverScreen &&
+      driver != DriverScreen.INSTANCE &&
         driver != DriverKeyboard &&
         driver.slot(stack) == containerSlotType(i) &&
         driver.tier(stack) <= containerSlotTier(i)

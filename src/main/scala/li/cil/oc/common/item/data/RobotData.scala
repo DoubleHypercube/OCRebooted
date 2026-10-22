@@ -102,7 +102,7 @@ class RobotData extends ItemData(Constants.BlockName.Robot) {
     // robot in creative mode.
     val newInfo = new RobotData(stack)
     newInfo.components.foreach(cs => Option(api.Driver.driverFor(cs)) match {
-      case Some(driver) if driver == DriverScreen =>
+      case Some(driver) if driver == DriverScreen.INSTANCE =>
         Item.updateDataTag(cs, nbt => nbt.getAllKeys.asScala.toSeq.foreach(nbt.remove))
       case _ =>
     })

@@ -88,7 +88,7 @@ class Robot(id: Int, playerInventory: Inventory, robot: Container, val info: Rob
     val index = slots.size
     addSlot(new StaticComponentSlot(this, otherInventory, index, x, y, getHostClass, slot, tier) {
       override def mayPlace(stack: ItemStack): Boolean = {
-        if (DriverScreen.worksWith(stack, getHostClass)) return false
+        if (DriverScreen.INSTANCE.worksWith(stack, getHostClass)) return false
         if (DriverKeyboard.worksWith(stack, getHostClass)) return false
         super.mayPlace(stack)
       }
