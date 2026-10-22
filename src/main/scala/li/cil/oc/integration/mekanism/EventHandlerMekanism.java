@@ -2,7 +2,7 @@ package li.cil.oc.integration.mekanism;
 
 import li.cil.oc.common.blockentity.BlockEntityTypes;
 import li.cil.oc.common.blockentity.traits.PowerAcceptor;
-import li.cil.oc.integration.util.Power$;
+import li.cil.oc.integration.util.Power;
 import mekanism.api.Action;
 import mekanism.api.energy.IStrictEnergyHandler;
 import mekanism.common.capabilities.Capabilities;
@@ -62,7 +62,7 @@ public final class EventHandlerMekanism {
 
         @Override
         public long getEnergy(final int container) {
-            return valid(container) ? (long) Power$.MODULE$.toJoules(tile.globalBuffer(effectiveSide())) : 0L;
+            return valid(container) ? (long) Power.toJoules(tile.globalBuffer(effectiveSide())) : 0L;
         }
 
         @Override
@@ -71,7 +71,7 @@ public final class EventHandlerMekanism {
 
         @Override
         public long getMaxEnergy(final int container) {
-            return valid(container) ? (long) Power$.MODULE$.toJoules(tile.globalBufferSize(effectiveSide())) : 0L;
+            return valid(container) ? (long) Power.toJoules(tile.globalBufferSize(effectiveSide())) : 0L;
         }
 
         @Override
@@ -85,8 +85,8 @@ public final class EventHandlerMekanism {
                 return amount;
             }
             final double accepted = tile.tryChangeBuffer(
-                    effectiveSide(), Power$.MODULE$.fromJoules((double) amount), action.execute());
-            return Math.max(0L, amount - (long) Power$.MODULE$.toJoules(accepted));
+                    effectiveSide(), Power.fromJoules((double) amount), action.execute());
+            return Math.max(0L, amount - (long) Power.toJoules(accepted));
         }
 
         @Override

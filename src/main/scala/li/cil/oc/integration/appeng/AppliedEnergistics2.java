@@ -12,7 +12,7 @@ import appeng.api.util.AEColor;
 import li.cil.oc.Settings;
 import li.cil.oc.common.blockentity.traits.PowerAcceptor;
 import li.cil.oc.common.blockentity.traits.PowerAcceptorIntegration;
-import li.cil.oc.integration.util.Power$;
+import li.cil.oc.integration.util.Power;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -125,9 +125,9 @@ public final class AppliedEnergistics2 implements PowerAcceptorIntegration {
 
             double budget = owner.energyThroughput() * Settings.get().tickFrequency();
             for (final Direction side : Direction.values()) {
-                final double demand = Power$.MODULE$.toAE(Math.min(budget, owner.globalDemand(side)));
+                final double demand = Power.toAE(Math.min(budget, owner.globalDemand(side)));
                 if (demand > 1) {
-                    final double supplied = Power$.MODULE$.fromAE(
+                    final double supplied = Power.fromAE(
                             grid.getEnergyService().extractAEPower(demand, Actionable.MODULATE, PowerMultiplier.CONFIG));
                     if (supplied > 0) {
                         budget -= owner.tryChangeBuffer(side, supplied, true);
