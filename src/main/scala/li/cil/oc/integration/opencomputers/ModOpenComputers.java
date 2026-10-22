@@ -160,9 +160,9 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeBarcodeReader.INSTANCE);
         Driver.add(DriverUpgradeBattery.INSTANCE);
         Driver.add(DriverUpgradeChunkloader.INSTANCE);
-        Driver.add(DriverUpgradeCrafting$.MODULE$);
+        Driver.add(DriverUpgradeCrafting.INSTANCE);
         Driver.add(DriverUpgradeDatabase$.MODULE$);
-        Driver.add(DriverUpgradeExperience$.MODULE$);
+        Driver.add(DriverUpgradeExperience.INSTANCE);
         Driver.add(DriverUpgradeGenerator.INSTANCE);
         Driver.add(DriverUpgradeHover.INSTANCE);
         Driver.add(DriverUpgradeInventory$.MODULE$);
@@ -196,9 +196,9 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverScreen.PROVIDER);
         Driver.add(DriverTransposer.PROVIDER);
         Driver.add(DriverUpgradeChunkloader.PROVIDER);
-        Driver.add(DriverUpgradeCrafting.Provider$.MODULE$);
+        Driver.add(DriverUpgradeCrafting.PROVIDER);
         Driver.add(DriverUpgradeDatabase.Provider$.MODULE$);
-        Driver.add(DriverUpgradeExperience.Provider$.MODULE$);
+        Driver.add(DriverUpgradeExperience.PROVIDER);
         Driver.add(DriverUpgradeGenerator.PROVIDER);
         Driver.add(DriverUpgradeInventoryController.Provider$.MODULE$);
         Driver.add(DriverUpgradeLeash.Provider$.MODULE$);
