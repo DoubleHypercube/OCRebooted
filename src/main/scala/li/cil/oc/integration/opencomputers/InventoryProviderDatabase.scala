@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 
 object InventoryProviderDatabase extends InventoryProvider {
-  override def worksWith(stack: ItemStack, player: Player): Boolean = DriverUpgradeDatabase.worksWith(stack)
+  override def worksWith(stack: ItemStack, player: Player): Boolean = DriverUpgradeDatabase.INSTANCE.worksWith(stack)
 
   override def getInventory(stack: ItemStack, player: Player): Container = new DatabaseInventory {
     override def container: ItemStack = stack

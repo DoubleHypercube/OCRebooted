@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
 
 trait DatabaseInventory extends ItemStackInventory with MenuProvider {
-  def tier: Int = DriverUpgradeDatabase.tier(container)
+  def tier: Int = DriverUpgradeDatabase.INSTANCE.tier(container)
 
   override def getContainerSize = Settings.get.databaseEntriesPerTier(tier)
 
