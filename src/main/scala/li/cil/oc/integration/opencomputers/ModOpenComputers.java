@@ -127,7 +127,7 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverAPU$.MODULE$);
         Driver.add(DriverAudioCard$.MODULE$);
         Driver.add(DriverComponentBus.INSTANCE);
-        Driver.add(DriverCPU$.MODULE$);
+        Driver.add(DriverCPU.INSTANCE);
         Driver.add(DriverDataCard.INSTANCE);
         Driver.add(DriverDebugCard.INSTANCE);
         Driver.add(DriverEEPROM.INSTANCE);

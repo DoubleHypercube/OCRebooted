@@ -19,7 +19,7 @@ trait CPULike extends SimpleItem {
   override protected def tooltipData: Seq[Any] = Seq(Settings.get.cpuComponentSupport(cpuTier))
 
   override protected def tooltipExtended(stack: ItemStack, tooltip: util.List[Component], flag: TooltipFlag): Unit = {
-    Tooltip.add(tooltip, flag, "cpu.Architecture", api.Machine.getArchitectureName(DriverCPU.architecture(stack)))
+    Tooltip.add(tooltip, flag, "cpu.Architecture", api.Machine.getArchitectureName(DriverCPU.INSTANCE.architecture(stack)))
   }
 
   override def use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder[ItemStack] = {
