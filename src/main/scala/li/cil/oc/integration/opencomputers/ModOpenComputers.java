@@ -316,7 +316,7 @@ public final class ModOpenComputers implements ModProxy {
             hasRedstoneCardT2 = true;
         }
 
-        Nanomachines.addProvider(DisintegrationProvider$.MODULE$);
+        Nanomachines.addProvider(DisintegrationProvider.INSTANCE);
         Nanomachines.addProvider(HungryProvider.INSTANCE);
         Nanomachines.addProvider(ParticleProvider.INSTANCE);
         Nanomachines.addProvider(PotionProvider.INSTANCE);
