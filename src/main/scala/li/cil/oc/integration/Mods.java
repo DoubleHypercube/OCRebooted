@@ -6,13 +6,13 @@ import li.cil.oc.integration.appeng.ModAppliedEnergistics2;
 import li.cil.oc.integration.computercraft.ModComputerCraft;
 import li.cil.oc.integration.create.ModCreate;
 import li.cil.oc.integration.enderstorage.ModEnderStorage;
-import li.cil.oc.integration.immersiveengineering.ModImmersiveEngineering$;
+import li.cil.oc.integration.immersiveengineering.ModImmersiveEngineering;
 import li.cil.oc.integration.mekanism.ModMekanism;
 import li.cil.oc.integration.minecraft.ModMinecraft$;
 import li.cil.oc.integration.multipart.ModCBMultipart$;
 import li.cil.oc.integration.neoforge.ModNeoForge;
 import li.cil.oc.integration.opencomputers.ModOpenComputers;
-import li.cil.oc.integration.projectred.ModProjectRed$;
+import li.cil.oc.integration.projectred.ModProjectRed;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforgespi.language.MavenVersionAdapter;
@@ -57,8 +57,8 @@ public final class Mods {
         ModAppliedEnergistics2.INSTANCE,
         ModEnderStorage.INSTANCE,
         ModCBMultipart$.MODULE$,
-        ModProjectRed$.MODULE$,
-        ModImmersiveEngineering$.MODULE$,
+        ModProjectRed.INSTANCE,
+        ModImmersiveEngineering.INSTANCE,
         ModOpenComputers.INSTANCE
     };
 
