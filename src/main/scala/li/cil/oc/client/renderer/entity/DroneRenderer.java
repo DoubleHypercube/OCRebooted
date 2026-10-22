@@ -17,7 +17,7 @@ public final class DroneRenderer extends EntityRenderer<Drone> {
 
     public DroneRenderer(EntityRendererProvider.Context context) {
         super(context);
-        model = new ModelQuadcopter(context.bakeLayer(ModelQuadcopter$.MODULE$.LAYER_LOCATION()));
+        model = new ModelQuadcopter(context.bakeLayer(ModelQuadcopter.LAYER_LOCATION));
     }
 
     @Override
