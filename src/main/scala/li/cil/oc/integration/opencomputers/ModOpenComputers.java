@@ -104,7 +104,7 @@ public final class ModOpenComputers implements ModProxy {
         OpenComputers.proxy().modBus().addListener(SableTickBridge$.MODULE$::onRegisterTicketControllers);
 
         NeoForge.EVENT_BUS.register(EventHandler$.MODULE$);
-        NeoForge.EVENT_BUS.register(NanomachinesHandler.Common$.MODULE$);
+        NeoForge.EVENT_BUS.register(NanomachinesHandler.Common.INSTANCE);
         NeoForge.EVENT_BUS.register(Tablet$.MODULE$);
         NeoForge.EVENT_BUS.register(Analyzer$.MODULE$);
         NeoForge.EVENT_BUS.register(AngelUpgradeHandler.INSTANCE);
