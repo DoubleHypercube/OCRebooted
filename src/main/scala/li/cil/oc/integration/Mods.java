@@ -3,14 +3,14 @@ package li.cil.oc.integration;
 import li.cil.oc.OpenComputers;
 import li.cil.oc.Settings;
 import li.cil.oc.integration.appeng.ModAppliedEnergistics2;
-import li.cil.oc.integration.computercraft.ModComputerCraft$;
+import li.cil.oc.integration.computercraft.ModComputerCraft;
 import li.cil.oc.integration.create.ModCreate$;
-import li.cil.oc.integration.enderstorage.ModEnderStorage$;
+import li.cil.oc.integration.enderstorage.ModEnderStorage;
 import li.cil.oc.integration.immersiveengineering.ModImmersiveEngineering$;
 import li.cil.oc.integration.mekanism.ModMekanism;
 import li.cil.oc.integration.minecraft.ModMinecraft$;
 import li.cil.oc.integration.multipart.ModCBMultipart$;
-import li.cil.oc.integration.neoforge.ModNeoForge$;
+import li.cil.oc.integration.neoforge.ModNeoForge;
 import li.cil.oc.integration.opencomputers.ModOpenComputers;
 import li.cil.oc.integration.projectred.ModProjectRed$;
 import net.neoforged.fml.ModContainer;
@@ -50,12 +50,12 @@ public final class Mods {
     // Keep the original order: OpenComputers initializes after the optional integrations.
     private static final ModProxy[] PROXIES = {
         ModCreate$.MODULE$,
-        ModNeoForge$.MODULE$,
+        ModNeoForge.INSTANCE,
         ModMekanism.INSTANCE,
         ModMinecraft$.MODULE$,
-        ModComputerCraft$.MODULE$,
+        ModComputerCraft.INSTANCE,
         ModAppliedEnergistics2.INSTANCE,
-        ModEnderStorage$.MODULE$,
+        ModEnderStorage.INSTANCE,
         ModCBMultipart$.MODULE$,
         ModProjectRed$.MODULE$,
         ModImmersiveEngineering$.MODULE$,
