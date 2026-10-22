@@ -34,7 +34,7 @@ public final class PlayerInteractionManagerHelper {
     }
 
     // Returns experience gained from removing the block, or -1 if the block was not removed.
-    public static int blockRemoving(Player player, BlockPos pos) {
+    public static int blockRemoving(Player player, BlockPos pos, Direction side) {
         if (!isDestroyingBlock(player)) return -1;
 
         BreakHandler handler = new BreakHandler(player);
@@ -42,12 +42,12 @@ public final class PlayerInteractionManagerHelper {
         int buildLimit = player.level().getMaxBuildHeight();
         try {
             player.gameMode.handleBlockBreakAction(pos,
-                ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, null, buildLimit, 0);
+                ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, side, buildLimit, 0);
             return handler.expToDrop;
         } catch (Exception exception) {
             OpenComputers.log().info("an exception was thrown while trying to call handleBlockBreakAction: {}", exception.getMessage());
             player.gameMode.handleBlockBreakAction(pos,
-                ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, null, buildLimit, 0);
+                ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, side, buildLimit, 0);
             return -1;
         } finally {
             NeoForge.EVENT_BUS.unregister(handler);
