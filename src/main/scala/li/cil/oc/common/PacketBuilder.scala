@@ -78,7 +78,7 @@ abstract class PacketBuilder(stream: OutputStream) extends DataOutputStream(stre
     writeInt(pos.z)
   }
 
-  def writePacketType(pt: PacketType.Value) = writeByte(pt.id)
+  def writePacketType(pt: PacketType) = writeByte(pt.id)
   
   def sendToPlayersNearEntity(e: Entity, range: Option[Double] = None): Unit = sendToNearbyPlayers(e.level, e.getX, e.getY, e.getZ, range)
 
@@ -144,7 +144,7 @@ abstract class PacketBuilder(stream: OutputStream) extends DataOutputStream(stre
 // Necessary to keep track of the GZIP stream.
 abstract class PacketBuilderBase[T <: OutputStream](protected val stream: T) extends PacketBuilder(new BufferedOutputStream(stream))
 
-class SimplePacketBuilder(val packetType: PacketType.Value) extends PacketBuilderBase(PacketBuilder.newData(compressed = false)) {
+class SimplePacketBuilder(val packetType: PacketType) extends PacketBuilderBase(PacketBuilder.newData(compressed = false)) {
   writeByte(packetType.id)
 
   override protected def packet = {
@@ -153,7 +153,7 @@ class SimplePacketBuilder(val packetType: PacketType.Value) extends PacketBuilde
   }
 }
 
-class CompressedPacketBuilder(val packetType: PacketType.Value, private val data: ByteArrayOutputStream = PacketBuilder.newData(compressed = true)) extends PacketBuilderBase(new DeflaterOutputStream(data, new Deflater(Deflater.BEST_SPEED))) {
+class CompressedPacketBuilder(val packetType: PacketType, private val data: ByteArrayOutputStream = PacketBuilder.newData(compressed = true)) extends PacketBuilderBase(new DeflaterOutputStream(data, new Deflater(Deflater.BEST_SPEED))) {
   writeByte(packetType.id)
 
   override protected def packet = {

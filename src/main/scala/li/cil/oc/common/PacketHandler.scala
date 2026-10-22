@@ -62,7 +62,7 @@ abstract class PacketHandler {
   protected def createParser(stream: InputStream, player: Player): PacketParser
 
   private[oc] class PacketParser(stream: InputStream, val player: Player) extends DataInputStream(stream) {
-    val packetType = PacketType(readByte())
+    val packetType = PacketType.fromId(readByte())
 
     def readRegistryEntry[T](registry: Registry[T]): T = {
       val id = readUTF()
@@ -162,6 +162,6 @@ abstract class PacketHandler {
       arr
     }
 
-    def readPacketType() = PacketType(readByte())
+    def readPacketType() = PacketType.fromId(readByte())
   }
 }

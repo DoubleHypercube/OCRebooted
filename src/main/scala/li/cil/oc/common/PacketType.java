@@ -1,7 +1,10 @@
-package li.cil.oc.common
+package li.cil.oc.common;
 
-object PacketType extends Enumeration {
-  val
+import java.util.NoSuchElementException;
+
+public enum PacketType {
+
+
   // Server -> Client
   AdapterState,
   Analyze,
@@ -121,5 +124,13 @@ object PacketType extends Enumeration {
   TapeDriveControl,
   TapeAudioStart,
 
-  EndOfList = Value
+  EndOfList;
+
+  public int id() { return ordinal(); }
+
+  public static PacketType fromId(int id) {
+    PacketType[] values = values();
+    if (id < 0 || id >= values.length) throw new NoSuchElementException("No packet type for id " + id);
+    return values[id];
+  }
 }
