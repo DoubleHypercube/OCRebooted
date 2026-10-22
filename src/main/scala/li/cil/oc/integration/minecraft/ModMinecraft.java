@@ -30,7 +30,7 @@ public final class ModMinecraft implements ModProxy, BundledRedstone.RedstonePro
         Driver.add(DriverSmoker.INSTANCE);
         Driver.add(DriverMobSpawner.INSTANCE);
         Driver.add(DriverNoteBlock.INSTANCE);
-        Driver.add(DriverRecordPlayer$.MODULE$);
+        Driver.add(DriverRecordPlayer.INSTANCE);
 
         Driver.add(DriverBeacon.PROVIDER);
         Driver.add(DriverBrewingStand.PROVIDER);
@@ -40,7 +40,7 @@ public final class ModMinecraft implements ModProxy, BundledRedstone.RedstonePro
         Driver.add(DriverSmoker.PROVIDER);
         Driver.add(DriverMobSpawner.PROVIDER);
         Driver.add(DriverNoteBlock.PROVIDER);
-        Driver.add(DriverRecordPlayer.Provider$.MODULE$);
+        Driver.add(DriverRecordPlayer.PROVIDER);
 
         if (Settings.get().enableInventoryDriver()) Driver.add(new DriverInventory());
         if (Settings.get().enableTankDriver()) {
