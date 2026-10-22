@@ -16,7 +16,7 @@ import li.cil.oc.api.network.Message;
 import li.cil.oc.api.network.Node;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.AbstractManagedEnvironment;
-import li.cil.oc.common.event.ChunkloaderUpgradeHandler$;
+import li.cil.oc.common.event.ChunkloaderUpgradeHandler;
 import li.cil.oc.util.ResultWrapper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -57,12 +57,12 @@ public class UpgradeChunkloader extends AbstractManagedEnvironment implements De
         if (host.getEnvironmentLevel().getGameTime() % Settings.get().tickFrequency() == 0 && ticket.isDefined()) {
             if (!node.tryChangeBuffer(-Settings.get().chunkloaderCost() * Settings.get().tickFrequency())) {
                 if (host.getEnvironmentLevel() instanceof ServerLevel world) {
-                    ChunkloaderUpgradeHandler$.MODULE$.releaseTicket(world, node.address(), ticket.get());
+                    ChunkloaderUpgradeHandler.INSTANCE.releaseTicket(world, node.address(), ticket.get());
                 }
                 ticket = scala.Option.empty();
             }
             else if (host instanceof Entity) {
-                ChunkloaderUpgradeHandler$.MODULE$.updateLoadedChunk(this);
+                ChunkloaderUpgradeHandler.INSTANCE.updateLoadedChunk(this);
             }
         }
     }
@@ -81,11 +81,11 @@ public class UpgradeChunkloader extends AbstractManagedEnvironment implements De
     public void onConnect(Node node) {
         super.onConnect(node);
         if (node != this.node) return;
-        scala.Option<ChunkPos> restoredTicket = ChunkloaderUpgradeHandler$.MODULE$.claimTicket(node.address(), host.getEnvironmentLevel());
+        scala.Option<ChunkPos> restoredTicket = ChunkloaderUpgradeHandler.INSTANCE.claimTicket(node.address(), host.getEnvironmentLevel());
         if (restoredTicket.isDefined()) {
             if (!isDimensionAllowed()) {
                 if (host.getEnvironmentLevel() instanceof ServerLevel world) {
-                    ChunkloaderUpgradeHandler$.MODULE$.releaseTicket(world, node.address(), restoredTicket.get());
+                    ChunkloaderUpgradeHandler.INSTANCE.releaseTicket(world, node.address(), restoredTicket.get());
                 }
                 OpenComputers$.MODULE$.log().info("Releasing chunk loader ticket at ({}, {}, {}) in blacklisted dimension {}.",
                         host.xPosition(), host.yPosition(), host.zPosition(), host.getEnvironmentLevel().dimension());
@@ -94,7 +94,7 @@ public class UpgradeChunkloader extends AbstractManagedEnvironment implements De
                 OpenComputers$.MODULE$.log().info("Reclaiming chunk loader ticket at ({}, {}, {}) in dimension {}.",
                         host.xPosition(), host.yPosition(), host.zPosition(), host.getEnvironmentLevel().dimension());
                 ticket = restoredTicket;
-                ChunkloaderUpgradeHandler$.MODULE$.updateLoadedChunk(this);
+                ChunkloaderUpgradeHandler.INSTANCE.updateLoadedChunk(this);
             }
         }
         else if (host instanceof Context context && context.isRunning()) {
@@ -107,7 +107,7 @@ public class UpgradeChunkloader extends AbstractManagedEnvironment implements De
         super.onDisconnect(node);
         if (node == this.node) {
             if (ticket.isDefined() && host.getEnvironmentLevel() instanceof ServerLevel world) {
-                ChunkloaderUpgradeHandler$.MODULE$.releaseTicket(world, node.address(), ticket.get());
+                ChunkloaderUpgradeHandler.INSTANCE.releaseTicket(world, node.address(), ticket.get());
             }
             ticket = scala.Option.empty();
         }
@@ -127,7 +127,7 @@ public class UpgradeChunkloader extends AbstractManagedEnvironment implements De
         }
         if (!enabled && ticket.isDefined()) {
             if (host.getEnvironmentLevel() instanceof ServerLevel world) {
-                ChunkloaderUpgradeHandler$.MODULE$.releaseTicket(world, node.address(), ticket.get());
+                ChunkloaderUpgradeHandler.INSTANCE.releaseTicket(world, node.address(), ticket.get());
             }
             ticket = scala.Option.empty();
             return true;
@@ -148,6 +148,6 @@ public class UpgradeChunkloader extends AbstractManagedEnvironment implements De
         if (!isDimensionAllowed()) {
             if (throwIfBlocked) throw new IllegalStateException("this dimension is blacklisted");
         }
-        else ChunkloaderUpgradeHandler$.MODULE$.requestTicket(this);
+        else ChunkloaderUpgradeHandler.INSTANCE.requestTicket(this);
     }
 }

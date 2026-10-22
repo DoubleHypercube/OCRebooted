@@ -100,7 +100,7 @@ public final class ModOpenComputers implements ModProxy {
         IMC.registerProgramDiskLabel("oppm", "oppm", "Lua 5.2", "Lua 5.3", "LuaJ");
 
         OpenComputers.proxy().modBus().addListener(EventHandler$.MODULE$::onRegisterCapabilities);
-        OpenComputers.proxy().modBus().addListener(ChunkloaderUpgradeHandler$.MODULE$::onRegisterTicketControllers);
+        OpenComputers.proxy().modBus().addListener(ChunkloaderUpgradeHandler.INSTANCE::onRegisterTicketControllers);
         OpenComputers.proxy().modBus().addListener(SableTickBridge$.MODULE$::onRegisterTicketControllers);
 
         NeoForge.EVENT_BUS.register(EventHandler$.MODULE$);
@@ -108,7 +108,7 @@ public final class ModOpenComputers implements ModProxy {
         NeoForge.EVENT_BUS.register(Tablet$.MODULE$);
         NeoForge.EVENT_BUS.register(Analyzer$.MODULE$);
         NeoForge.EVENT_BUS.register(AngelUpgradeHandler.INSTANCE);
-        NeoForge.EVENT_BUS.register(ChunkloaderUpgradeHandler$.MODULE$);
+        NeoForge.EVENT_BUS.register(ChunkloaderUpgradeHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(ExperienceUpgradeHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(FileSystemAccessHandler.INSTANCE);
         NeoForge.EVENT_BUS.register(HoverBootsHandler.INSTANCE);
