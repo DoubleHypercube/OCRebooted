@@ -4,16 +4,21 @@ import li.cil.oc.util.BlockPosition;
 import li.cil.oc.util.ExtendedLevel;
 import net.minecraft.core.Direction;
 
-import java.util.ArrayList;
-import java.util.List;
+import scala.collection.mutable.ArrayBuffer$;
+import scala.collection.mutable.Buffer;
+import scala.jdk.javaapi.CollectionConverters;
 
 public final class BundledRedstone {
-    private static final List<RedstoneProvider> providers = new ArrayList<>();
+    private static final Buffer<RedstoneProvider> providers = ArrayBuffer$.MODULE$.empty();
 
     private BundledRedstone() {}
 
+    public static Buffer<RedstoneProvider> providers() {
+        return providers;
+    }
+
     public static void addProvider(RedstoneProvider provider) {
-        providers.add(provider);
+        providers.addOne(provider);
     }
 
     public static boolean isAvailable() {
@@ -23,7 +28,7 @@ public final class BundledRedstone {
     public static int computeInput(BlockPosition position, Direction side) {
         if (!new ExtendedLevel.ExtendedLevel(position.world().get()).blockExists(position.offset(side))) return 0;
         Integer strongest = null;
-        for (RedstoneProvider provider : providers) {
+        for (RedstoneProvider provider : CollectionConverters.asJava(providers)) {
             int input = provider.computeInput(position, side);
             strongest = strongest == null ? input : Math.max(strongest, input);
         }
@@ -33,7 +38,7 @@ public final class BundledRedstone {
     public static int[] computeBundledInput(BlockPosition position, Direction side) {
         if (!new ExtendedLevel.ExtendedLevel(position.world().get()).blockExists(position.offset(side))) return null;
         int[] combined = null;
-        for (RedstoneProvider provider : providers) {
+        for (RedstoneProvider provider : CollectionConverters.asJava(providers)) {
             int[] input = provider.computeBundledInput(position, side);
             if (input == null) continue;
             if (combined == null) combined = input.clone();
