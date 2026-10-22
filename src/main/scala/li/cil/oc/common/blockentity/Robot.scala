@@ -767,7 +767,7 @@ class Robot(pos: BlockPos, state: BlockState)
       // GUI) I feel it's OK to handle it like this, instead of some extra API
       // logic making the differentiation of assembler and containers generic.
       driver != DriverScreen.INSTANCE &&
-        driver != DriverKeyboard &&
+        driver != DriverKeyboard.INSTANCE &&
         driver.slot(stack) == containerSlotType(i) &&
         driver.tier(stack) <= containerSlotTier(i)
     case (i, _) if isInventorySlot(i) => true // Normal inventory.

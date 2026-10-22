@@ -23,7 +23,7 @@ object RobotInfo {
     case Some(buffer: api.internal.TextBuffer) if buffer.node != null => buffer.node.address
   }
 
-  def hasKeyboard(robot: blockentity.Robot) = robot.info.components.map(api.Driver.driverFor(_, robot.getClass)).contains(DriverKeyboard)
+  def hasKeyboard(robot: blockentity.Robot) = robot.info.components.map(api.Driver.driverFor(_, robot.getClass)).contains(DriverKeyboard.INSTANCE)
 
   def readRobotInfo(buff: FriendlyByteBuf): RobotInfo = {
     val mainInvSize = buff.readVarInt()
@@ -89,7 +89,7 @@ class Robot(id: Int, playerInventory: Inventory, robot: Container, val info: Rob
     addSlot(new StaticComponentSlot(this, otherInventory, index, x, y, getHostClass, slot, tier) {
       override def mayPlace(stack: ItemStack): Boolean = {
         if (DriverScreen.INSTANCE.worksWith(stack, getHostClass)) return false
-        if (DriverKeyboard.worksWith(stack, getHostClass)) return false
+        if (DriverKeyboard.INSTANCE.worksWith(stack, getHostClass)) return false
         super.mayPlace(stack)
       }
     })
