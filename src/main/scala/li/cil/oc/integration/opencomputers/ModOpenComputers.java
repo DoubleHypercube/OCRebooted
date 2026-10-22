@@ -317,10 +317,10 @@ public final class ModOpenComputers implements ModProxy {
         }
 
         Nanomachines.addProvider(DisintegrationProvider$.MODULE$);
-        Nanomachines.addProvider(HungryProvider$.MODULE$);
+        Nanomachines.addProvider(HungryProvider.INSTANCE);
         Nanomachines.addProvider(ParticleProvider$.MODULE$);
         Nanomachines.addProvider(PotionProvider$.MODULE$);
-        Nanomachines.addProvider(MagnetProvider$.MODULE$);
+        Nanomachines.addProvider(MagnetProvider.INSTANCE);
 
         if (FMLEnvironment.dist.isClient()) initializeClient();
     }
