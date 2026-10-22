@@ -209,7 +209,7 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeTankController.PROVIDER);
         Driver.add(DriverUpgradeTractorBeam.PROVIDER);
         Driver.add(DriverUpgradeMF.PROVIDER);
-        Driver.add(EnvironmentProviderBlocks$.MODULE$);
+        Driver.add(EnvironmentProviderBlocks.INSTANCE);
         Driver.add(InventoryProviderDatabase.INSTANCE);
         Driver.add(InventoryProviderServer.INSTANCE);
 
