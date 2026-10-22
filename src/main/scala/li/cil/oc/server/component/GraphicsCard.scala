@@ -665,11 +665,11 @@ class GraphicsCard(val tier: Int, val vramScreens: Option[Double] = None, val vi
 
   override def loadData(holder: DataComponentHolder): Unit = {
     super.loadData(holder)
-    for(GraphicsCardState(screen, bufferIndex) <- holder.getComponent(OCComponents.GRAPHICS_CARD)) {
-      screenAddress = screen
+    for(state <- holder.getComponent(OCComponents.GRAPHICS_CARD)) {
+      screenAddress = state.screen
       screenInstance = None
 
-      this.bufferIndex = bufferIndex
+      this.bufferIndex = state.bufferIndex
     }
 
     removeAllBuffers() // JUST in case
@@ -683,7 +683,7 @@ class GraphicsCard(val tier: Int, val vramScreens: Option[Double] = None, val vi
   override def saveData(holder: MutableDataComponentHolder): Unit = {
     super.saveData(holder)
 
-    holder.setComponent(OCComponents.GRAPHICS_CARD, GraphicsCardState(screenAddress, bufferIndex))
+    holder.setComponent(OCComponents.GRAPHICS_CARD, new GraphicsCardState(screenAddress, bufferIndex))
     holder.setComponent(OCComponents.VIDEO_RAM,
       bufferIndexes().map(i => i -> getBuffer(i)).collect {
         case i -> Some(page) =>
