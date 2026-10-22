@@ -50,7 +50,7 @@ class ModPluginOpenComputers extends IModPlugin {
 
   override def onRuntimeAvailable(jeiRuntime: IJeiRuntime): Unit = {
     if (stackUnderMouse == null) {
-      ItemSearch.stackFocusing += ((container, mouseX, mouseY) => stackUnderMouse(container, mouseX, mouseY))
+      ItemSearch.stackFocusing += ((container, mouseX, mouseY) => stackUnderMouse(container, mouseX.asInstanceOf[Int], mouseY.asInstanceOf[Int]))
     }
     stackUnderMouse = (_, _, _) => StackOption(jeiRuntime.getIngredientListOverlay.getIngredientUnderMouse(VanillaTypes.ITEM_STACK))
     ModJEI.runtime = Option(jeiRuntime)
