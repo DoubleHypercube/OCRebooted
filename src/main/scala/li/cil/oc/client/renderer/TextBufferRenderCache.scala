@@ -41,13 +41,13 @@ object TextBufferRenderCache {
       val byteBuffer = new ByteBufferBuilder(786432)
       try {
         val source = MultiBufferSource.immediate(byteBuffer)
-        renderer.drawBuffer(stack, source, buffer.data, buffer.viewport._1, buffer.viewport._2)
+        renderer.drawBuffer(stack, source, buffer.data, buffer.viewport._1.asInstanceOf[Int], buffer.viewport._2.asInstanceOf[Int])
         source.endBatch()
       }
       finally byteBuffer.close()
     }
     else {
-      renderer.drawBuffer(stack, renderBuffer, buffer.data, buffer.viewport._1, buffer.viewport._2)
+      renderer.drawBuffer(stack, renderBuffer, buffer.data, buffer.viewport._1.asInstanceOf[Int], buffer.viewport._2.asInstanceOf[Int])
     }
     buffer.dirty = false
   }

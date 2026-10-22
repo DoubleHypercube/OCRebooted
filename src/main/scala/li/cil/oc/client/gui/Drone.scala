@@ -67,7 +67,7 @@ class Drone(state: menu.Drone, playerInventory: Inventory, name: Component)
     )))
 
     bufferRenderer.dirty = inventoryContainer.statusText.getString.linesIterator.zipWithIndex.exists {
-      case (line, i) => buffer.set(0, i, line, vertical = false)
+      case (line, i) => buffer.set(0, i, line, false)
     }
 
     super.render(graphics, mouseX, mouseY, dt)
