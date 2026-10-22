@@ -159,7 +159,7 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeAngel$.MODULE$);
         Driver.add(DriverUpgradeBarcodeReader$.MODULE$);
         Driver.add(DriverUpgradeBattery.INSTANCE);
-        Driver.add(DriverUpgradeChunkloader$.MODULE$);
+        Driver.add(DriverUpgradeChunkloader.INSTANCE);
         Driver.add(DriverUpgradeCrafting$.MODULE$);
         Driver.add(DriverUpgradeDatabase$.MODULE$);
         Driver.add(DriverUpgradeExperience$.MODULE$);
@@ -176,7 +176,7 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverUpgradeTank$.MODULE$);
         Driver.add(DriverUpgradeTankController$.MODULE$);
         Driver.add(DriverUpgradeTractorBeam$.MODULE$);
-        Driver.add(DriverUpgradeTrading$.MODULE$);
+        Driver.add(DriverUpgradeTrading.INSTANCE);
         Driver.add(DriverUpgradeMF$.MODULE$);
         Driver.add(DriverAPU.Provider$.MODULE$);
         Driver.add(DriverAudioCard.Provider$.MODULE$);
@@ -195,7 +195,7 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverMotionSensor.PROVIDER);
         Driver.add(DriverScreen.PROVIDER);
         Driver.add(DriverTransposer.PROVIDER);
-        Driver.add(DriverUpgradeChunkloader.Provider$.MODULE$);
+        Driver.add(DriverUpgradeChunkloader.PROVIDER);
         Driver.add(DriverUpgradeCrafting.Provider$.MODULE$);
         Driver.add(DriverUpgradeDatabase.Provider$.MODULE$);
         Driver.add(DriverUpgradeExperience.Provider$.MODULE$);
