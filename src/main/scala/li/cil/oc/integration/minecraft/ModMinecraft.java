@@ -22,23 +22,23 @@ public final class ModMinecraft implements ModProxy, BundledRedstone.RedstonePro
 
     @Override
     public void initialize() {
-        Driver.add(DriverBeacon$.MODULE$);
+        Driver.add(DriverBeacon.INSTANCE);
         Driver.add(DriverBrewingStand.INSTANCE);
         Driver.add(DriverComparator.INSTANCE);
         Driver.add(DriverFurnace.INSTANCE);
         Driver.add(DriverBlastFurnace.INSTANCE);
         Driver.add(DriverSmoker.INSTANCE);
-        Driver.add(DriverMobSpawner$.MODULE$);
+        Driver.add(DriverMobSpawner.INSTANCE);
         Driver.add(DriverNoteBlock$.MODULE$);
         Driver.add(DriverRecordPlayer$.MODULE$);
 
-        Driver.add(DriverBeacon.Provider$.MODULE$);
+        Driver.add(DriverBeacon.PROVIDER);
         Driver.add(DriverBrewingStand.PROVIDER);
         Driver.add(DriverComparator.PROVIDER);
         Driver.add(DriverFurnace.PROVIDER);
         Driver.add(DriverBlastFurnace.PROVIDER);
         Driver.add(DriverSmoker.PROVIDER);
-        Driver.add(DriverMobSpawner.Provider$.MODULE$);
+        Driver.add(DriverMobSpawner.PROVIDER);
         Driver.add(DriverNoteBlock.Provider$.MODULE$);
         Driver.add(DriverRecordPlayer.Provider$.MODULE$);
 
