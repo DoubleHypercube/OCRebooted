@@ -58,7 +58,7 @@ public final class ModMinecraft implements ModProxy, BundledRedstone.RedstonePro
         Driver.add(ConverterLevel.INSTANCE);
 
         BundledRedstone.addProvider(this);
-        NeoForge.EVENT_BUS.register(EventHandlerVanilla$.MODULE$);
+        NeoForge.EVENT_BUS.register(EventHandlerVanilla.INSTANCE);
     }
 
     @Override
