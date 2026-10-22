@@ -156,8 +156,8 @@ public final class ModOpenComputers implements ModProxy {
         Driver.add(DriverDiskDriveMountable$.MODULE$);
         Driver.add(DriverServer$.MODULE$);
         Driver.add(DriverTerminalServer$.MODULE$);
-        Driver.add(DriverUpgradeAngel$.MODULE$);
-        Driver.add(DriverUpgradeBarcodeReader$.MODULE$);
+        Driver.add(DriverUpgradeAngel.INSTANCE);
+        Driver.add(DriverUpgradeBarcodeReader.INSTANCE);
         Driver.add(DriverUpgradeBattery.INSTANCE);
         Driver.add(DriverUpgradeChunkloader.INSTANCE);
         Driver.add(DriverUpgradeCrafting$.MODULE$);
