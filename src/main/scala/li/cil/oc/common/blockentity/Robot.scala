@@ -681,7 +681,7 @@ class Robot(pos: BlockPos, state: BlockState)
 
   override def componentSlot(address: String): Int = componentSlots.indexWhere(_.exists(env => env.node != null && env.node.address == address))
 
-  override def hasRedstoneCard: Boolean = (containerSlots ++ componentSlotRange).exists(slot => StackOption(getItem(slot)).fold(false)(DriverRedstoneCard.worksWith(_, getClass)))
+  override def hasRedstoneCard: Boolean = (containerSlots ++ componentSlotRange).exists(slot => StackOption(getItem(slot)).fold(false)(DriverRedstoneCard.INSTANCE.worksWith(_, getClass)))
 
   private def computeInventorySize() = math.min(maxInventorySize, (containerSlots ++ componentSlotRange).foldLeft(0)((acc, slot) => acc + (StackOption(getItem(slot)) match {
     case SomeStack(stack) => Option(Driver.driverFor(stack, getClass)) match {

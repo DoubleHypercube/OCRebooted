@@ -99,7 +99,7 @@ trait Computer extends Environment with ComponentInventory with Rotatable with B
   override def onMachineDisconnect(node: api.network.Node): Unit = this.onDisconnect(node)
 
   def hasRedstoneCard: Boolean = items.exists {
-    case item if !item.isEmpty => machine.isRunning && DriverRedstoneCard.worksWith(item, getClass)
+    case item if !item.isEmpty => machine.isRunning && DriverRedstoneCard.INSTANCE.worksWith(item, getClass)
     case _ => false
   }
 

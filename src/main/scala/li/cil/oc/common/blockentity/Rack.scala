@@ -510,7 +510,7 @@ class Rack(pos: BlockPos, state: BlockState)
 
   def hasRedstoneCard: Boolean = componentSlots.exists {
     case Some(mountable: EnvironmentHost with RackMountable with Container) if isWorking(mountable) =>
-      mountable.exists(stack => DriverRedstoneCard.worksWith(stack, mountable.getClass))
+      mountable.exists(stack => DriverRedstoneCard.INSTANCE.worksWith(stack, mountable.getClass))
     case _ => false
   }
 }
