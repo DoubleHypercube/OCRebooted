@@ -5,6 +5,7 @@ import com.mojang.math.Axis
 import li.cil.oc.client
 import li.cil.oc.client.renderer.RenderTypes
 import li.cil.oc.common.blockentity.Projector
+import li.cil.oc.util.SableCompat
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.{BlockEntityRenderer, BlockEntityRendererProvider}
 import net.minecraft.client.renderer.texture.DynamicTexture
@@ -19,7 +20,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.client.event.{ClientTickEvent, InputEvent, RenderLevelStageEvent}
-import org.joml.{Matrix4f, Vector4f}
+import org.joml.{Matrix4f, Quaternionf, Vector4f}
 
 import com.google.common.cache.{Cache, CacheBuilder, RemovalNotification}
 import java.util.concurrent.TimeUnit
@@ -89,9 +90,10 @@ object ProjectorRenderer extends BlockEntityRendererProvider[Projector] {
 
   private[tileentity] def projectedHit(projector: Projector, start: Vec3, end: Vec3): Option[ProjectorHit] = {
     val stack = new PoseStack()
-    val pos = projector.getBlockPos
-    stack.translate(pos.getX.toFloat, pos.getY.toFloat, pos.getZ.toFloat)
-    stack.translate(0.5, 0.5, 0.5)
+    val pos = SableCompat.physicalPosition(projector.getLevel, projector.getBlockPos)
+    val orientation = SableCompat.logicalPose(projector.getLevel, projector.getBlockPos.getCenter).orientation()
+    stack.translate(pos.x, pos.y, pos.z)
+    stack.mulPose(new Quaternionf(orientation))
     projector.getProjectionDirection match {
       case Direction.WEST  => stack.mulPose(Axis.YP.rotationDegrees(-90))
       case Direction.NORTH => stack.mulPose(Axis.YP.rotationDegrees(180))
@@ -140,7 +142,7 @@ object ProjectorRenderer extends BlockEntityRendererProvider[Projector] {
   private[tileentity] def projectionDistance(projector: Projector): Float = {
     val maxProjectionDistance = MaxProjectionDistance
     val rayStartOffset = 0.501
-    val surfaceOffset = 0.001
+    val surfaceOffset = 0.001f
     val blockPos = projector.getBlockPos
     val direction = projector.getProjectionDirection
     val origin = new Vec3(blockPos.getX + 0.5, blockPos.getY + 0.5, blockPos.getZ + 0.5)
@@ -156,7 +158,7 @@ object ProjectorRenderer extends BlockEntityRendererProvider[Projector] {
     ))
 
     if (hit.getType == HitResult.Type.BLOCK)
-      math.max(rayStartOffset, hit.getLocation.distanceTo(origin) - surfaceOffset).toFloat
+      math.max(rayStartOffset, SableCompat.distanceRectilinear(projector.getLevel, blockPos.getCenter, hit.getLocation) - surfaceOffset).toFloat
     else maxProjectionDistance.toFloat
   }
 }

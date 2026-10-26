@@ -1,12 +1,13 @@
 package li.cil.oc.util
 
 import dev.ryanhcode.sable.companion.SableCompanion
+import dev.ryanhcode.sable.companion.math.{Pose3d, Pose3dc}
 import li.cil.oc.api.network.EnvironmentHost
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
-import org.joml.Vector3d
+import org.joml.{Quaterniond, Vector3d}
 
 /**
  * The coordinate boundary between OC's local block space and the physical
@@ -61,6 +62,21 @@ object SableCompat {
   def distanceSquared(level: Level, a: Vec3, b: Vec3): Double = {
     if (level == null) a.distanceToSqr(b)
     else SableCompanion.INSTANCE.distanceSquaredWithSubLevels(level, a, b)
+  }
+
+  def distanceRectilinear(level: Level, a: Vec3, b: Vec3): Double = {
+    if (level == null) a.distanceTo(b)
+    else SableCompanion.INSTANCE.rectilinearDistanceWithSubLevels(level, a, b)
+  }
+
+  def logicalPose(level: Level, position: Vec3): Pose3dc = {
+    if (level == null || position == null) new Pose3d()
+    else {
+      val access = SableCompanion.INSTANCE.getContaining(level, position)
+      if (access == null)
+        new Pose3d(new Vector3d(position.x, position.y, position.z), new Quaterniond(), new Vector3d(), new Vector3d())
+      else access.logicalPose()
+    }
   }
 
   def isInPlotGrid(level: Level, position: Vec3): Boolean =
