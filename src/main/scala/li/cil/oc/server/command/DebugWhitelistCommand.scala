@@ -1,6 +1,6 @@
 package li.cil.oc.server.command
 
-import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import li.cil.oc.Settings
@@ -11,8 +11,8 @@ import net.minecraft.network.chat.Component
 object DebugWhitelistCommand {
   private val NotEnabled = new SimpleCommandExceptionType(Component.literal("Debug card whitelisting is not enabled."))
 
-  def register(dispatcher: CommandDispatcher[CommandSourceStack]): Unit = {
-    val command = Commands.literal("oc_debugWhitelist")
+  def register(root: LiteralArgumentBuilder[CommandSourceStack]): Unit = {
+    val command = Commands.literal("debugWhitelist")
       .then(Commands.literal("revoke")
         .executes(context => revoke(context.getSource, context.getSource.getTextName))
         .then(Commands.argument("player", StringArgumentType.word())
@@ -30,7 +30,7 @@ object DebugWhitelistCommand {
         .then(Commands.argument("player", StringArgumentType.word())
           .executes(context => remove(context.getSource, StringArgumentType.getString(context, "player")))))
 
-    dispatcher.register(command)
+    root.then(command)
   }
 
   private def whitelist = Settings.get.debugCardAccess match {

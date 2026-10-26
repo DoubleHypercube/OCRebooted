@@ -1,7 +1,7 @@
 package li.cil.oc.server.command
 
 import com.mojang.brigadier.CommandDispatcher
-import net.minecraft.commands.CommandSourceStack
+import net.minecraft.commands.{CommandSourceStack, Commands}
 import net.neoforged.neoforge.event.RegisterCommandsEvent
 
 object CommandHandler {
@@ -11,12 +11,14 @@ object CommandHandler {
   def onRegisterCommands(event: RegisterCommandsEvent): Unit = register(event.getDispatcher)
 
   private def register(dispatcher: CommandDispatcher[CommandSourceStack]): Unit = {
-    DebugNanomachinesCommand.register(dispatcher)
-    LogNanomachinesCommand.register(dispatcher)
-    NonDisassemblyAgreementCommand.register(dispatcher)
-    WirelessRenderingCommand.register(dispatcher)
-    SpawnComputerCommand.register(dispatcher)
-    DebugWhitelistCommand.register(dispatcher)
-    SendDebugMessageCommand.register(dispatcher)
+    val root = Commands.literal("oc")
+    DebugNanomachinesCommand.register(root)
+    LogNanomachinesCommand.register(root)
+    NonDisassemblyAgreementCommand.register(root)
+    WirelessRenderingCommand.register(root)
+    SpawnComputerCommand.register(root)
+    DebugWhitelistCommand.register(root)
+    SendDebugMessageCommand.register(root)
+    dispatcher.register(root)
   }
 }

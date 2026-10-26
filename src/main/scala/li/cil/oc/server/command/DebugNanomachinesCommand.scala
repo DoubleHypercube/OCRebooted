@@ -1,18 +1,17 @@
 package li.cil.oc.server.command
 
-import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import li.cil.oc.api
 import li.cil.oc.common.nanomachines.ControllerImpl
 import net.minecraft.commands.{CommandSourceStack, Commands}
 import net.minecraft.network.chat.Component
 
 object DebugNanomachinesCommand {
-  private val Names = Seq("oc_debugNanomachines", "oc_dn")
-
-  def register(dispatcher: CommandDispatcher[CommandSourceStack]): Unit =
-    Names.foreach(name => dispatcher.register(Commands.literal(name)
+  def register(root: LiteralArgumentBuilder[CommandSourceStack]): Unit = {
+    root.then(Commands.literal("debugNanomachines")
       .requires(CommandHandler.canUse(_, 2))
-      .executes(context => execute(context.getSource))))
+      .executes(context => execute(context.getSource)))
+  }
 
   private def execute(source: CommandSourceStack): Int = {
     val player = source.getPlayerOrException

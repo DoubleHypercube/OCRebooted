@@ -7,11 +7,12 @@ import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent
 
 object CommandHandler {
   def onRegisterCommands(event: RegisterClientCommandsEvent): Unit = {
-    event.getDispatcher.register(Commands.literal("oc_setclipboard")
-      .then(Commands.argument("value", StringArgumentType.greedyString())
-        .executes(context => {
-          Minecraft.getInstance.keyboardHandler.setClipboard(StringArgumentType.getString(context, "value"))
-          1
-        })))
+    event.getDispatcher.register(Commands.literal("oc")
+      .then(Commands.literal("setclipboard")
+        .then(Commands.argument("value", StringArgumentType.greedyString())
+          .executes(context => {
+            Minecraft.getInstance.keyboardHandler.setClipboard(StringArgumentType.getString(context, "value"))
+            1
+          }))))
   }
 }

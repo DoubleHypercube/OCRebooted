@@ -1,6 +1,6 @@
 package li.cil.oc.server.command
 
-import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.arguments.BoolArgumentType
 import li.cil.oc.Settings
 import net.minecraft.commands.{CommandSourceStack, Commands}
@@ -8,11 +8,10 @@ import net.minecraft.core.component.DataComponents
 import net.minecraft.world.item.component.CustomData
 
 object NonDisassemblyAgreementCommand {
-  private val Names = Seq("oc_preventDisassembling", "oc_nodis", "oc_prevdis")
   private val DataKey = Settings.namespace + "undisassemblable"
 
-  def register(dispatcher: CommandDispatcher[CommandSourceStack]): Unit = Names.foreach { name =>
-    dispatcher.register(Commands.literal(name)
+  def register(root: LiteralArgumentBuilder[CommandSourceStack]): Unit = {
+    root.then(Commands.literal("preventDisassembling")
       .requires(CommandHandler.canUse(_, 2))
       .executes(context => execute(context.getSource, None))
       .then(Commands.argument("value", BoolArgumentType.bool())

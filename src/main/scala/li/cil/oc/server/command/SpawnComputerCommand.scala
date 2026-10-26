@@ -1,6 +1,6 @@
 package li.cil.oc.server.command
 
-import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import li.cil.oc.{api, Constants}
 import li.cil.oc.common.Loot
 import li.cil.oc.common.blockentity.{Case => CaseBlockEntity}
@@ -16,7 +16,7 @@ object SpawnComputerCommand {
   final val MaxDistance = 16.0
   final val DefaultScreenTier = 2
 
-  def register(dispatcher: CommandDispatcher[CommandSourceStack]): Unit = {
+  def register(root: LiteralArgumentBuilder[CommandSourceStack]): Unit = {
     def command(name: String) = Commands.literal(name)
       .requires(CommandHandler.canUse(_, 2))
       .executes(context => execute(context.getSource, DefaultScreenTier, tieredComponents = false))
@@ -25,9 +25,8 @@ object SpawnComputerCommand {
       .then(Commands.literal("3").executes(context => execute(context.getSource, 3, tieredComponents = true)))
       .then(Commands.literal("4").executes(context => execute(context.getSource, 4, tieredComponents = true)))
 
-    dispatcher.register(command("oc_spawnComputer"))
-    dispatcher.register(command("oc_spawncomputer"))
-    dispatcher.register(command("oc_sc"))
+    root.then(command("spawnComputer"))
+    root.then(command("sc"))
   }
 
   private def execute(source: CommandSourceStack, screenTier: Int, tieredComponents: Boolean): Int = {

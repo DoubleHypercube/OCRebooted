@@ -6,4 +6,4 @@
 
 カードを持った状態でスニークアクチュベートすると、そのカードをあなた自身にバインド（または解除）できます。これにより、`runCommand` が実行される際に、デフォルトの OpenComputers の権限レベルではなく、あなたの権限レベルが使用されるようになります。
 
-デバッグカードは[リンクカード](linkedCard.md)と同様にメッセージを受信でき、`debug_message` イベントを発生させます。メッセージの送信には、別のデバッグカードの `sendDebugMessage` か、Minecraft のコマンド `/oc_sendDebugMessage` (または `/oc_sdbg`) を使用します。
+デバッグカードは[リンクカード](linkedCard.md)と同様にメッセージを受信でき、`debug_message` イベントを発生させます。メッセージの送信には、別のデバッグカードの `sendDebugMessage` か、Minecraft のコマンド `/oc sendDebugMessage` を使用します。
