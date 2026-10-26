@@ -610,22 +610,29 @@ object Tablet {
         // Server.
         tablet.machine.stop()
 
-        // Cache eviction tears down the live machine. Persist that stopped
-        // state as well, otherwise a tablet that was just turned off may
-        // retain its previous running flag while it is in a charger.
-        tablet.data.isRunning = tablet.machine.isRunning
-        if (tablet.autoSave) tablet.writeToNBT(tablet.player.registryAccess())
+        // Ordinary eviction powers the tablet off. World/dimension changes
+        // save the running state before teardown and disable autoSave.
+        if (tablet.autoSave) {
+          tablet.data.isRunning = tablet.machine.isRunning
+          tablet.writeToNBT(tablet.player.registryAccess())
+        }
 
         for (node <- tablet.machine.node.network.nodes) {
           node.remove()
         }
-        tablet.setChanged()
+        if (tablet.autoSave) tablet.setChanged()
       }
     }
 
     def clear(level: Level): Unit = {
       cache.synchronized {
         val tabletsInWorld = cache.asMap.filter(_._2.getEnvironmentLevel == level)
+        if (!level.isClientSide) {
+          for (tablet <- tabletsInWorld.values) {
+            tablet.writeToNBT(tablet.player.registryAccess())
+            tablet.autoSave = false
+          }
+        }
         cache.invalidateAll(asJavaIterable(tabletsInWorld.keys))
         cache.cleanUp()
       }
