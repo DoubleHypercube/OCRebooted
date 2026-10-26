@@ -190,6 +190,8 @@ class InternetCard extends AbstractManagedEnvironment with DeviceInfo {
 }
 
 object InternetCard {
+  private val MaxHttpRedirects = 10
+
   // For InternetFilteringRuleTest, where Settings.get is not provided.
   private val threadPool = ThreadPoolFactory.create("Internet", Option(Settings.get) match {
     case None => 1
@@ -554,20 +556,27 @@ object InternetCard {
 
     // This one doesn't (see comment in TCP socket), but I like to keep it consistent.
     private class RequestSender(val url: URL, val post: Option[String], val headers: Map[String, String], val method: Option[String], val allowErrorBody: Boolean) extends Callable[InputStream] {
-      override def call() = try {
+      override def call(): InputStream = try {
+        sendRequest(url, post, headers, method.getOrElse(if (post.isDefined) "POST" else "GET"), 0)
+      }
+      catch {
+        case e: UnknownHostException =>
+          throw new IOException("unknown host: " + Option(e.getMessage).getOrElse(e.toString))
+        case e: Throwable =>
+          throw new IOException(Option(e.getMessage).getOrElse(e.toString))
+      }
+
+      private def sendRequest(url: URL, post: Option[String], headers: Map[String, String], method: String, redirects: Int): InputStream = {
         checkLists(InetAddress.getByName(url.getHost), url.getHost)
         val proxy = ServerLifecycleHooks.getCurrentServer.proxy
         url.openConnection(proxy) match {
           case http: HttpURLConnection => try {
-            // Redirect destinations must be checked just like the original URL.
-            // Do not let HttpURLConnection silently follow a redirect to a
-            // private or otherwise blocked address.
             http.setInstanceFollowRedirects(false)
             http.setConnectTimeout(Settings.get.httpTimeout)
             http.setReadTimeout(Settings.get.httpTimeout)
             http.setDoInput(true)
             http.setDoOutput(post.isDefined)
-            http.setRequestMethod(if (method.isDefined) method.get else if (post.isDefined) "POST" else "GET")
+            http.setRequestMethod(method)
             http.setRequestProperty("User-Agent", Settings.get.httpUserAgent.replace("$version", OpenComputers.Version))
             headers.foreach(Function.tupled(http.setRequestProperty))
             if (post.isDefined) {
@@ -576,19 +585,29 @@ object InternetCard {
               out.close()
             }
 
-            // Finish the connection. Call getInputStream a second time below to re-throw any exception.
-            // This avoids getResponseCode() waiting for the connection to end in the synchronized block.
-            try {
-              http.getInputStream
-            } catch {
-              case _: Exception =>
+            val code = http.getResponseCode
+            val location = http.getHeaderField("Location")
+            if (isRedirect(code) && location != null && location.nonEmpty) {
+              if (redirects >= MaxHttpRedirects) throw new IOException("too many redirects")
+              val nextUrl = new URL(url, location)
+              val sameOrigin = url.getProtocol.equalsIgnoreCase(nextUrl.getProtocol) &&
+                url.getHost.equalsIgnoreCase(nextUrl.getHost) && effectivePort(url) == effectivePort(nextUrl)
+              val nextHeaders = if (sameOrigin) headers else headers.filterNot { case (name, _) =>
+                name.equalsIgnoreCase("Authorization") || name.equalsIgnoreCase("Cookie") || name.equalsIgnoreCase("Cookie2")
+              }
+              val switchToGet = (code == HttpURLConnection.HTTP_SEE_OTHER && !method.equalsIgnoreCase("HEAD")) ||
+                ((code == HttpURLConnection.HTTP_MOVED_PERM || code == HttpURLConnection.HTTP_MOVED_TEMP) &&
+                  !method.equalsIgnoreCase("GET") && !method.equalsIgnoreCase("HEAD"))
+              http.disconnect()
+              sendRequest(nextUrl, if (switchToGet) None else post, nextHeaders,
+                if (switchToGet) "GET" else method, redirects + 1)
             }
-
-            HTTPRequest.this.synchronized {
-              response = Some((http.getResponseCode, http.getResponseMessage, http.getHeaderFields))
+            else {
+              HTTPRequest.this.synchronized {
+                response = Some((code, http.getResponseMessage, http.getHeaderFields))
+              }
+              responseStream(http, allowErrorBody)
             }
-
-            responseStream(http, allowErrorBody)
           }
           catch {
             case t: Throwable =>
@@ -598,12 +617,12 @@ object InternetCard {
           case other => throw new IOException("unexpected connection type")
         }
       }
-      catch {
-        case e: UnknownHostException =>
-          throw new IOException("unknown host: " + Option(e.getMessage).getOrElse(e.toString))
-        case e: Throwable =>
-          throw new IOException(Option(e.getMessage).getOrElse(e.toString))
-      }
+
+      private def isRedirect(code: Int): Boolean =
+        code == HttpURLConnection.HTTP_MOVED_PERM || code == HttpURLConnection.HTTP_MOVED_TEMP ||
+          code == HttpURLConnection.HTTP_SEE_OTHER || code == 300 || code == 307 || code == 308
+
+      private def effectivePort(url: URL): Int = if (url.getPort >= 0) url.getPort else url.getDefaultPort
     }
 
   }

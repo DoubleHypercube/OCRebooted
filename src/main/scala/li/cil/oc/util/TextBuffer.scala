@@ -69,7 +69,7 @@ class TextBuffer(var width: Int, var height: Int, initialFormat: PackedColor.Col
     else false
   }
 
-  var color: Array[Array[Short]] = Array.fill(height, width)(packed)
+  var color: Array[Array[Int]] = Array.fill(height, width)(packed)
 
   var buffer: Array[Array[Int]] = Array.fill(height, width)(0x20)
 
@@ -256,7 +256,7 @@ class TextBuffer(var width: Int, var height: Int, initialFormat: PackedColor.Col
     changed
   }
 
-  private def setChar(line: Array[Int], lineColor: Array[Short], x: Int, c: Int): Unit = {
+  private def setChar(line: Array[Int], lineColor: Array[Int], x: Int, c: Int): Unit = {
     if (FontUtils.wcwidth(c) > 1 && x >= line.length - 1) {
       // Don't allow setting wide chars in right-most col.
       return
@@ -307,7 +307,7 @@ class TextBuffer(var width: Int, var height: Int, initialFormat: PackedColor.Col
       _background.value,
       _background.isPalette,
       List.tabulate[String](height) { lineToString },
-      new TextBufferContents.ShortArray(color)
+      new TextBufferContents.IntArray(color)
     ))
     // Palette formats keep their mutable palette outside TextBufferContents.
     // Persist it alongside the buffer so palette reads remain available after

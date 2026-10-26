@@ -3,7 +3,7 @@ package li.cil.oc.util
 import net.minecraft.nbt.CompoundTag
 
 object NbtDataStream {
-  def getShortArray(nbt: CompoundTag, key: String, array2d: Array[Array[Short]], w: Int, h: Int) : Boolean = {
+  def getIntArray(nbt: CompoundTag, key: String, array2d: Array[Array[Int]], w: Int, h: Int) : Boolean = {
     if (!nbt.contains(key)) {
       return false
     }
@@ -12,16 +12,16 @@ object NbtDataStream {
     val memReader = new java.io.DataInputStream(rawByteReader)
     for (y <- 0 until h) {
       for (x <- 0 until w) {
-        if (2 > memReader.available()) {
+        if (Integer.BYTES > memReader.available()) {
           return true // not great, but get out now
         }
-        array2d(y)(x) = memReader.readShort()
+        array2d(y)(x) = memReader.readInt()
       }
     }
     true
   }
 
-  def getIntArrayLegacy(nbt: CompoundTag, key: String, array2d: Array[Array[Short]], w: Int, h: Int) : Boolean = {
+  def getIntArrayLegacy(nbt: CompoundTag, key: String, array2d: Array[Array[Int]], w: Int, h: Int) : Boolean = {
     if (!nbt.contains(key)) {
       return false
     }
@@ -34,7 +34,7 @@ object NbtDataStream {
         if (index >= c.length) {
           return true // not great, but, the read at least started
         }
-        rowColor(x) = c(index).toShort
+        rowColor(x) = c(index)
       }
     }
     true

@@ -50,7 +50,7 @@ object PackedColor {
       }
     }
 
-    def deflate(value: Color): Byte
+    def deflate(value: Color): Short
 
     def isFromPalette(value: Int): Boolean = false
 
@@ -209,12 +209,12 @@ object PackedColor {
       if (isFromPalette(value)) super.inflate(value)
       else fromRGB565(value - palette.length)
 
-    override def deflate(value: Color): Byte = {
+    override def deflate(value: Color): Short = {
       val paletteIndex = super.deflate(value)
       if (value.isPalette) paletteIndex
       else {
-        val deflated = (palette.length + toRGB565(value.value)).toByte
-        if (delta(inflate(deflated & 0xFF), value.value) < delta(inflate(paletteIndex & 0xFF), value.value))
+        val deflated = (palette.length + toRGB565(value.value)).toShort
+        if (delta(inflate(deflated & 0xFFFF), value.value) < delta(inflate(paletteIndex & 0xFFFF), value.value))
           deflated
         else
           paletteIndex
@@ -226,21 +226,21 @@ object PackedColor {
 
   case class Color(value: Int, isPalette: Boolean = false)
 
-  // Colors are packed: 0xFFBB (F = foreground, B = background)
-  val ForegroundShift = 8
-  val BackgroundMask = 0x000000FF
+  // Colors are packed: 0xFFFFBBBB (F = foreground, B = background)
+  val ForegroundShift = 16
+  val BackgroundMask = 0x0000FFFF
 
   def pack(foreground: Color, background: Color, format: ColorFormat) = {
-    (((format.deflate(foreground) & 0xFF) << ForegroundShift) | (format.deflate(background) & 0xFF)).toShort
+    (((format.deflate(foreground) & 0xFFFF) << ForegroundShift) | (format.deflate(background) & 0xFFFF)).toInt
   }
 
-  def extractForeground(color: Short) = (color & 0xFFFF) >>> ForegroundShift
+  def extractForeground(color: Int) = (color & 0xFFFFFFFF) >>> ForegroundShift
 
-  def extractBackground(color: Short) = color & BackgroundMask
+  def extractBackground(color: Int) = color & BackgroundMask
 
-  def unpackForeground(color: Short, format: ColorFormat) =
+  def unpackForeground(color: Int, format: ColorFormat) =
     format.inflate(extractForeground(color))
 
-  def unpackBackground(color: Short, format: ColorFormat) =
+  def unpackBackground(color: Int, format: ColorFormat) =
     format.inflate(extractBackground(color))
 }

@@ -195,7 +195,7 @@ trait TextBufferProxy extends api.internal.TextBuffer {
     }
   }
 
-  private def color(column: Int, row: Int): Short = {
+  private def color(column: Int, row: Int): Int = {
     if (column < 0 || column >= getWidth || row < 0 || row >= getHeight)
       throw new IndexOutOfBoundsException()
     else data.color(row)(column)

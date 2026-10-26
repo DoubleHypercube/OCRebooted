@@ -6,7 +6,7 @@ import li.cil.oc.Settings
 import li.cil.oc.api.ImmutableItemStack
 import li.cil.oc.api.network.Visibility
 import li.cil.oc.common.datacomponents.MachineData.Signal
-import li.cil.oc.common.datacomponents.TextBufferContents.ShortArray
+import li.cil.oc.common.datacomponents.TextBufferContents.IntArray
 import li.cil.oc.common.item.data.PrintData
 import li.cil.oc.server.component.DebugCard.AccessContext
 import li.cil.oc.server.machine.Machine
@@ -435,15 +435,15 @@ private object Migrators {
       val background = by(de.int("background") orElse 0)
       val backgroundIsPalette = by(de.boolean("backgroundIsPalette") orElse false)
 
-      val color = Array.fill[Short](height, width)(0)
-      if (!NbtDataStream.getShortArray(de.tag, "colors", color, width, height)) {
+      val color = Array.fill[Int](height, width)(0)
+      if (!NbtDataStream.getIntArray(de.tag, "colors", color, width, height)) {
         NbtDataStream.getIntArrayLegacy(de.tag, "color", color, width, height)
         by(de.tag("color"))
       } else {
         by(de.tag("colors"))
       }
 
-      TextBufferContents(width, height, depth, foreground, foregroundIsPalette, background, backgroundIsPalette, buffer, new ShortArray(color))
+      TextBufferContents(width, height, depth, foreground, foregroundIsPalette, background, backgroundIsPalette, buffer, new IntArray(color))
     }
   }
   register(OCComponents.IS_ON) { _.boolean(oc -> "isOn").andRemove }

@@ -154,7 +154,7 @@ class GraphicsCard(val tier: Int, val vramScreens: Option[Double] = None, val vi
   def buffers(context: Context, args: Arguments): Array[AnyRef] = {
     result(bufferIndexes())
   }
-  
+
   @Callback(direct = true, doc = """function([width: number, height: number]): number -- allocates a new buffer with dimensions width*height (defaults to max resolution) and appends it to the buffer list. Returns the index of the new buffer and returns nil with an error message on failure. A buffer can be allocated even when there is no screen bound to this gpu. Index 0 is always reserved for the screen and thus the lowest index of an allocated buffer is always 1.""")
   def allocateBuffer(context: Context, args: Arguments): Array[AnyRef] = {
     val width: Int = args.optInteger(0, maxResolution._1)
@@ -410,6 +410,7 @@ class GraphicsCard(val tier: Int, val vramScreens: Option[Double] = None, val vi
         case 1 => s.setColorDepth(api.internal.TextBuffer.ColorDepth.OneBit)
         case 4 if maxDepth.ordinal >= api.internal.TextBuffer.ColorDepth.FourBit.ordinal => s.setColorDepth(api.internal.TextBuffer.ColorDepth.FourBit)
         case 8 if maxDepth.ordinal >= api.internal.TextBuffer.ColorDepth.EightBit.ordinal => s.setColorDepth(api.internal.TextBuffer.ColorDepth.EightBit)
+        case 16 if maxDepth.ordinal >= api.internal.TextBuffer.ColorDepth.SixteenBit.ordinal => s.setColorDepth(api.internal.TextBuffer.ColorDepth.SixteenBit)
         case _ => throw new IllegalArgumentException("unsupported depth")
       }
       result(oldDepth)
