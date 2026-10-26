@@ -35,7 +35,7 @@ object PlayerInteractionManagerHelper {
 
   // returns exp gained from removing the block, -1 if block not removed
   // redone here because the interaction manager just drops the xp on the ground
-  def blockRemoving(player: Player, pos: BlockPos): Int = {
+  def blockRemoving(player: Player, pos: BlockPos, side: Direction): Int = {
     if (!isDestroyingBlock(player)) {
       return -1
     }
@@ -74,12 +74,12 @@ object PlayerInteractionManagerHelper {
     NeoForge.EVENT_BUS.register(infBreaker)
     val buildLimit = player.level.getMaxBuildHeight;
     try {
-      player.gameMode.handleBlockBreakAction(pos, ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, null, buildLimit, 0)
+      player.gameMode.handleBlockBreakAction(pos, ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, side, buildLimit, 0)
       infBreaker.expToDrop
     } catch {
       case e: Exception => {
         OpenComputers.log.info(s"an exception was thrown while trying to call handleBlockBreakAction: ${e.getMessage}")
-        player.gameMode.handleBlockBreakAction(pos, ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, null, buildLimit, 0)
+        player.gameMode.handleBlockBreakAction(pos, ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, side, buildLimit, 0)
         -1
       }
     } finally {
