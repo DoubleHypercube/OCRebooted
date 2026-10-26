@@ -779,10 +779,12 @@ class Machine(val host: MachineHost) extends AbstractManagedEnvironment with mac
 
   private def verifyComponents(): Unit = {
     if (componentRestoreGrace > 0) return
+    val network = node.network
+    if (network == null) return
 
     val invalid = mutable.Set.empty[String]
     for ((address, name) <- _components) {
-      node.network.node(address) match {
+      network.node(address) match {
         case component: Component if component.name == name => // All is well.
         case _ =>
           if (name == "filesystem") {
