@@ -28,15 +28,16 @@ abstract class ItemData(val itemName: String) extends Persistable {
 object ItemData {
   def isOnRenderThread = Minecraft.getInstance().isSameThread
 
-  def defaultProvider = if (FMLEnvironment.dist.isClient && isOnRenderThread) {
-    ClientAccessHelper.getClientRegistryAccess
-  } else {
-    ServerLifecycleHooks.getCurrentServer.registryAccess() match {
-      case null => FMLEnvironment.dist match {
-        case Dist.CLIENT => ClientAccessHelper.getClientRegistryAccess
-        case Dist.DEDICATED_SERVER => throw new IllegalStateException("cannot get registry provider before server is initialized!")
-      }
-      case notNull => notNull
+  def defaultProvider: HolderLookup.Provider = {
+    if (FMLEnvironment.dist.isClient && isOnRenderThread)
+      return ClientAccessHelper.getClientRegistryAccess
+
+    val server = ServerLifecycleHooks.getCurrentServer
+    val provider = if (server == null) null else server.registryAccess()
+    if (provider != null) provider
+    else FMLEnvironment.dist match {
+      case Dist.CLIENT => ClientAccessHelper.getClientRegistryAccess
+      case Dist.DEDICATED_SERVER => throw new IllegalStateException("cannot get registry provider before server is initialized!")
     }
   }
 }
